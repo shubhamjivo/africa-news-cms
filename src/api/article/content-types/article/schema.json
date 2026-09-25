@@ -28,11 +28,30 @@
         "audios"
       ]
     },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
     "author": {
       "type": "string"
     },
     "co_author": {
       "type": "string"
+    },
+    "read_time": {
+      "type": "integer"
+    },
+    "source": {
+      "type": "string"
+    },
+    "short_content": {
+      "type": "text"
     },
     "content": {
       "type": "customField",
@@ -46,11 +65,17 @@
       "component": "shared.seo",
       "repeatable": false
     },
-    "read_time": {
-      "type": "integer"
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "articles"
     },
-    "source": {
-      "type": "string"
+    "ticker": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::ticker.ticker",
+      "mappedBy": "article"
     }
   }
 }

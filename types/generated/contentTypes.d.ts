@@ -493,6 +493,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   attributes: {
     author: Schema.Attribute.String;
     banner: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     co_author: Schema.Attribute.String;
     content: Schema.Attribute.RichText &
       Schema.Attribute.CustomField<
@@ -513,9 +514,100 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     read_time: Schema.Attribute.Integer;
     seo: Schema.Attribute.Component<'shared.seo', false>;
+    short_content: Schema.Attribute.Text;
     slug: Schema.Attribute.UID<'title'>;
     source: Schema.Attribute.String;
+    thumbnail: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    ticker: Schema.Attribute.Relation<'oneToOne', 'api::ticker.ticker'>;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
+  collectionName: 'categories';
+  info: {
+    displayName: 'Category';
+    pluralName: 'categories';
+    singularName: 'category';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    articles: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::category.category'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'>;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPagePage extends Struct.CollectionTypeSchema {
+  collectionName: 'pages';
+  info: {
+    displayName: 'Page';
+    pluralName: 'pages';
+    singularName: 'page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    slug: Schema.Attribute.UID<'title'>;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTickerTicker extends Struct.CollectionTypeSchema {
+  collectionName: 'tickers';
+  info: {
+    displayName: 'Ticker';
+    pluralName: 'tickers';
+    singularName: 'ticker';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    article: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    headline: Schema.Attribute.String;
+    is_active: Schema.Attribute.Boolean;
+    label: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ticker.ticker'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1035,6 +1127,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::article.article': ApiArticleArticle;
+      'api::category.category': ApiCategoryCategory;
+      'api::page.page': ApiPagePage;
+      'api::ticker.ticker': ApiTickerTicker;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
