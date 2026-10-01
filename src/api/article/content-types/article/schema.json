@@ -53,6 +53,18 @@
     "short_content": {
       "type": "text"
     },
+    "markets": {
+      "type": "string"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "related_articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article"
+    },
     "content": {
       "type": "customField",
       "customField": "plugin::ckeditor5.CKEditor",

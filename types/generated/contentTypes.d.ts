@@ -505,14 +505,20 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::article.article'
     > &
       Schema.Attribute.Private;
+    markets: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     read_time: Schema.Attribute.Integer;
+    related_articles: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::article.article'
+    >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     short_content: Schema.Attribute.Text;
     slug: Schema.Attribute.UID<'title'>;
