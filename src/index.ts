@@ -1,9 +1,8 @@
 import type { Core } from '@strapi/strapi';
+import { applyAdminLayout } from './admin-layout';
 
-const ARTICLE_UID = 'api::article.article';
-
-// Content types the website renders; a change to any of them refreshes its cache.
-const WEBSITE_UIDS = new Set<string>([ARTICLE_UID, 'api::category.category', 'api::ticker.ticker']);
+// Types with a rich-text `content` and a `read_time` field to fill in.
+const READ_TIME_UIDS = new Set<string>(['api::article.article', 'api::insight.insight']);
 
 const WRITE_ACTIONS = new Set<string>([
   'create',
@@ -47,13 +46,14 @@ async function notifyWebsite(strapi: Core.Strapi) {
 export default {
   register({ strapi }: { strapi: Core.Strapi }) {
     strapi.documents.use(async (context, next) => {
-      if (!WEBSITE_UIDS.has(context.uid) || !WRITE_ACTIONS.has(context.action)) {
+      // Every api:: content type is rendered by the website.
+      if (!context.uid.startsWith('api::') || !WRITE_ACTIONS.has(context.action)) {
         return next();
       }
 
       const data = (context.params as { data?: Record<string, unknown> }).data;
       if (
-        context.uid === ARTICLE_UID &&
+        READ_TIME_UIDS.has(context.uid) &&
         data &&
         typeof data.content === 'string' &&
         (data.read_time === undefined || data.read_time === null)
@@ -68,5 +68,7 @@ export default {
     });
   },
 
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
+  async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    await applyAdminLayout(strapi);
+  },
 };

@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "videos",
+  "info": {
+    "singularName": "video",
+    "pluralName": "videos",
+    "displayName": "Video",
+    "description": "A YouTube video. Reels appear in the home page Reels strip; Videos in Watch & Listen and Events replays."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "video_type": {
+      "type": "enumeration",
+      "enum": [
+        "Reel",
+        "Video"
+      ],
+      "required": true,
+      "default": "Video"
+    },
+    "youtube_url": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "string"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

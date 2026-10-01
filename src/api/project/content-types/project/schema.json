@@ -1,0 +1,75 @@
+{
+  "kind": "collectionType",
+  "collectionName": "projects",
+  "info": {
+    "singularName": "project",
+    "pluralName": "projects",
+    "displayName": "Project",
+    "description": "An energy asset on the Projects page and in Project Watch on the home page."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "technology": {
+      "type": "enumeration",
+      "enum": [
+        "Solar",
+        "Wind",
+        "Battery Storage",
+        "Hydrogen",
+        "Geothermal",
+        "Hydro",
+        "Gas",
+        "Hybrid"
+      ],
+      "required": true
+    },
+    "project_status": {
+      "type": "enumeration",
+      "enum": [
+        "Announced",
+        "Development",
+        "Permitting",
+        "Tender",
+        "Pre-FID",
+        "Financial close",
+        "Construction",
+        "Operational"
+      ],
+      "required": true
+    },
+    "country": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::country.country",
+      "inversedBy": "projects"
+    },
+    "developer": {
+      "type": "string"
+    },
+    "capacity": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "summary": {
+      "type": "text"
+    }
+  }
+}

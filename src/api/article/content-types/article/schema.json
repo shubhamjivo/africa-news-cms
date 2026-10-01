@@ -4,7 +4,8 @@
   "info": {
     "singularName": "article",
     "pluralName": "articles",
-    "displayName": "Article"
+    "displayName": "Article",
+    "description": "A news story. Appears on /news, the home page and its own page at /news/<slug>."
   },
   "options": {
     "draftAndPublish": true
@@ -38,6 +39,13 @@
         "audios"
       ]
     },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "author": {
       "type": "string"
     },
@@ -55,10 +63,6 @@
     },
     "markets": {
       "type": "string"
-    },
-    "is_featured": {
-      "type": "boolean",
-      "default": false
     },
     "related_articles": {
       "type": "relation",

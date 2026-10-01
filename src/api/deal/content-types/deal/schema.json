@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deals",
+  "info": {
+    "singularName": "deal",
+    "pluralName": "deals",
+    "displayName": "Deal",
+    "description": "A transaction in Energy Investment Watch (home page) and Recent deals (Companies page)."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "deal_type": {
+      "type": "enumeration",
+      "enum": [
+        "Financial close",
+        "Development finance",
+        "M&A",
+        "PPA",
+        "Equity",
+        "Debt",
+        "Grant"
+      ],
+      "required": true
+    },
+    "value": {
+      "type": "string"
+    },
+    "markets": {
+      "type": "string"
+    },
+    "deal_date": {
+      "type": "date"
+    },
+    "article": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::article.article"
+    }
+  }
+}

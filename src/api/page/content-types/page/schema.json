@@ -4,19 +4,51 @@
   "info": {
     "singularName": "page",
     "pluralName": "pages",
-    "displayName": "Page"
+    "displayName": "Page",
+    "description": "Heading, intro text and SEO for a fixed site page such as News or Projects."
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
+    "site_page": {
+      "type": "enumeration",
+      "enum": [
+        "Home",
+        "News",
+        "Projects",
+        "Companies",
+        "Countries",
+        "Insights",
+        "Learning Center",
+        "Technology",
+        "Reports",
+        "Opinion",
+        "Interviews",
+        "Events",
+        "About"
+      ],
+      "required": true,
+      "unique": true
+    },
     "title": {
       "type": "string"
     },
     "slug": {
       "type": "uid",
       "targetField": "title"
+    },
+    "kicker": {
+      "type": "string"
+    },
+    "intro": {
+      "type": "text"
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.stat"
     },
     "seo": {
       "type": "component",

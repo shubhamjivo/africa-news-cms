@@ -1,0 +1,63 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "Site Settings",
+    "description": "Site-wide text: name, tagline, footer, newsletter box and the featured item in the Insights menu."
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "site_name": {
+      "type": "string",
+      "required": true,
+      "default": "Africa Energy News"
+    },
+    "tagline": {
+      "type": "string",
+      "default": "Energy intelligence, Africa-first"
+    },
+    "site_description": {
+      "type": "text"
+    },
+    "default_share_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "newsletter_heading": {
+      "type": "string"
+    },
+    "newsletter_text": {
+      "type": "text"
+    },
+    "newsletter_button": {
+      "type": "string",
+      "default": "Subscribe to the Brief"
+    },
+    "menu_featured_insight": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::insight.insight"
+    },
+    "footer_columns": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.footer-column"
+    },
+    "social_links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.link"
+    },
+    "copyright_text": {
+      "type": "string"
+    }
+  }
+}

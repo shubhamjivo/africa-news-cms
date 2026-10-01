@@ -1,0 +1,84 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event",
+    "description": "A forum, briefing or webinar on the Events page."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "event_type": {
+      "type": "enumeration",
+      "enum": [
+        "Briefing",
+        "Roundtable",
+        "Workshop",
+        "Summit",
+        "Webinar",
+        "Forum",
+        "Conference",
+        "Exhibition"
+      ],
+      "required": true
+    },
+    "start_date": {
+      "type": "date",
+      "required": true
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "city": {
+      "type": "string"
+    },
+    "venue": {
+      "type": "string"
+    },
+    "attendance": {
+      "type": "enumeration",
+      "enum": [
+        "In person",
+        "Hybrid",
+        "Virtual",
+        "Invite only"
+      ],
+      "default": "In person"
+    },
+    "description": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "registration_url": {
+      "type": "string"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "highlights": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.stat"
+    }
+  }
+}

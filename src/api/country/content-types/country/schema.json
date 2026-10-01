@@ -1,0 +1,89 @@
+{
+  "kind": "collectionType",
+  "collectionName": "countries",
+  "info": {
+    "singularName": "country",
+    "pluralName": "countries",
+    "displayName": "Country",
+    "description": "A market on the Countries page. Slugs matching the map (south-africa, kenya, nigeria, egypt, namibia, ethiopia, morocco, ghana) get a map marker."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "region": {
+      "type": "enumeration",
+      "enum": [
+        "North Africa",
+        "West Africa",
+        "Central Africa",
+        "East Africa",
+        "Southern Africa"
+      ],
+      "required": true
+    },
+    "market_label": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "installed_capacity": {
+      "type": "string"
+    },
+    "tracked_projects": {
+      "type": "integer",
+      "min": 0
+    },
+    "active_companies": {
+      "type": "integer",
+      "min": 0
+    },
+    "pipeline_projects": {
+      "type": "integer",
+      "min": 0
+    },
+    "energy_mix": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.energy-mix"
+    },
+    "latest_news": {
+      "type": "text"
+    },
+    "latest_investment": {
+      "type": "text"
+    },
+    "latest_policy": {
+      "type": "text"
+    },
+    "sort_order": {
+      "type": "integer",
+      "default": 0
+    },
+    "projects": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::project.project",
+      "mappedBy": "country"
+    }
+  }
+}

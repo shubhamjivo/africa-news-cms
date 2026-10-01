@@ -4,7 +4,8 @@
   "info": {
     "singularName": "ticker",
     "pluralName": "tickers",
-    "displayName": "Ticker"
+    "displayName": "Energy Brief",
+    "description": "Short items in the scrolling Africa Energy Brief bar on the home page."
   },
   "options": {
     "draftAndPublish": true

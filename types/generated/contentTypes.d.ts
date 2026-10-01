@@ -483,6 +483,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
+    description: 'A news story. Appears on /news, the home page and its own page at /news/<slug>.';
     displayName: 'Article';
     pluralName: 'articles';
     singularName: 'article';
@@ -505,7 +506,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    gallery: Schema.Attribute.Media<'images', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -535,6 +536,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categories';
   info: {
+    description: 'News topic, e.g. Solar or Policy. Shown as the label above headlines and as filter buttons on /news.';
     displayName: 'Category';
     pluralName: 'categories';
     singularName: 'category';
@@ -562,9 +564,336 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCompanyCompany extends Struct.CollectionTypeSchema {
+  collectionName: 'companies';
+  info: {
+    description: 'An organisation in the Companies directory.';
+    displayName: 'Company';
+    pluralName: 'companies';
+    singularName: 'company';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    company_type: Schema.Attribute.Enumeration<
+      [
+        'IPP',
+        'Developer',
+        'Utility',
+        'DFI',
+        'Investor',
+        'OEM',
+        'Offtaker',
+        'Major',
+        'Government',
+      ]
+    > &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    headquarters: Schema.Attribute.String;
+    highlight: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'>;
+    is_spotlight: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::company.company'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    spotlight_stats: Schema.Attribute.Component<'shared.stat', true>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    website: Schema.Attribute.String;
+  };
+}
+
+export interface ApiCountryCountry extends Struct.CollectionTypeSchema {
+  collectionName: 'countries';
+  info: {
+    description: 'A market on the Countries page. Slugs matching the map (south-africa, kenya, nigeria, egypt, namibia, ethiopia, morocco, ghana) get a map marker.';
+    displayName: 'Country';
+    pluralName: 'countries';
+    singularName: 'country';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    active_companies: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    energy_mix: Schema.Attribute.Component<'shared.energy-mix', true>;
+    image: Schema.Attribute.Media<'images'>;
+    installed_capacity: Schema.Attribute.String;
+    latest_investment: Schema.Attribute.Text;
+    latest_news: Schema.Attribute.Text;
+    latest_policy: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::country.country'
+    > &
+      Schema.Attribute.Private;
+    market_label: Schema.Attribute.String;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    pipeline_projects: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    projects: Schema.Attribute.Relation<'oneToMany', 'api::project.project'>;
+    publishedAt: Schema.Attribute.DateTime;
+    region: Schema.Attribute.Enumeration<
+      [
+        'North Africa',
+        'West Africa',
+        'Central Africa',
+        'East Africa',
+        'Southern Africa',
+      ]
+    > &
+      Schema.Attribute.Required;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    sort_order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    summary: Schema.Attribute.String;
+    tracked_projects: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDealDeal extends Struct.CollectionTypeSchema {
+  collectionName: 'deals';
+  info: {
+    description: 'A transaction in Energy Investment Watch (home page) and Recent deals (Companies page).';
+    displayName: 'Deal';
+    pluralName: 'deals';
+    singularName: 'deal';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    article: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    deal_date: Schema.Attribute.Date;
+    deal_type: Schema.Attribute.Enumeration<
+      [
+        'Financial close',
+        'Development finance',
+        'M&A',
+        'PPA',
+        'Equity',
+        'Debt',
+        'Grant',
+      ]
+    > &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::deal.deal'> &
+      Schema.Attribute.Private;
+    markets: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    value: Schema.Attribute.String;
+  };
+}
+
+export interface ApiEventEvent extends Struct.CollectionTypeSchema {
+  collectionName: 'events';
+  info: {
+    description: 'A forum, briefing or webinar on the Events page.';
+    displayName: 'Event';
+    pluralName: 'events';
+    singularName: 'event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    attendance: Schema.Attribute.Enumeration<
+      ['In person', 'Hybrid', 'Virtual', 'Invite only']
+    > &
+      Schema.Attribute.DefaultTo<'In person'>;
+    city: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    end_date: Schema.Attribute.Date;
+    event_type: Schema.Attribute.Enumeration<
+      [
+        'Briefing',
+        'Roundtable',
+        'Workshop',
+        'Summit',
+        'Webinar',
+        'Forum',
+        'Conference',
+        'Exhibition',
+      ]
+    > &
+      Schema.Attribute.Required;
+    highlights: Schema.Attribute.Component<'shared.stat', true>;
+    image: Schema.Attribute.Media<'images'>;
+    is_featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    registration_url: Schema.Attribute.String;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    start_date: Schema.Attribute.Date & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    venue: Schema.Attribute.String;
+  };
+}
+
+export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
+  collectionName: 'home_pages';
+  info: {
+    description: 'Home page layout and story picks. Sections: order, headings and visibility. Empty story lists fall back to the newest articles.';
+    displayName: 'Home Page';
+    pluralName: 'home-pages';
+    singularName: 'home-page';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    featured_insight: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::insight.insight'
+    >;
+    lead_story: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::home-page.home-page'
+    > &
+      Schema.Attribute.Private;
+    missed_it: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
+    most_read: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
+    publishedAt: Schema.Attribute.DateTime;
+    sections: Schema.Attribute.Component<'home.section', true>;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    the_brief: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
+    trending: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    what_matters_today: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::article.article'
+    >;
+  };
+}
+
+export interface ApiInsightInsight extends Struct.CollectionTypeSchema {
+  collectionName: 'insights';
+  info: {
+    description: 'Long-form content for the Insights section: guides, technology explainers, reports, opinion and interviews.';
+    displayName: 'Insight';
+    pluralName: 'insights';
+    singularName: 'insight';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    author: Schema.Attribute.String;
+    content: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    cover: Schema.Attribute.Media<'images'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    insight_type: Schema.Attribute.Enumeration<
+      [
+        'Learning Center',
+        'Technology',
+        'Report',
+        'Opinion',
+        'Interview',
+        'Analysis',
+      ]
+    > &
+      Schema.Attribute.Required;
+    label: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::insight.insight'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    pull_quote: Schema.Attribute.Text;
+    read_time: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    report_file: Schema.Attribute.Media<'files'>;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
+    description: 'Heading, intro text and SEO for a fixed site page such as News or Projects.';
     displayName: 'Page';
     pluralName: 'pages';
     singularName: 'page';
@@ -576,13 +905,142 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    intro: Schema.Attribute.Text;
+    kicker: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
+    site_page: Schema.Attribute.Enumeration<
+      [
+        'Home',
+        'News',
+        'Projects',
+        'Companies',
+        'Countries',
+        'Insights',
+        'Learning Center',
+        'Technology',
+        'Reports',
+        'Opinion',
+        'Interviews',
+        'Events',
+        'About',
+      ]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     slug: Schema.Attribute.UID<'title'>;
+    stats: Schema.Attribute.Component<'shared.stat', true>;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiProjectProject extends Struct.CollectionTypeSchema {
+  collectionName: 'projects';
+  info: {
+    description: 'An energy asset on the Projects page and in Project Watch on the home page.';
+    displayName: 'Project';
+    pluralName: 'projects';
+    singularName: 'project';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    capacity: Schema.Attribute.String;
+    country: Schema.Attribute.Relation<'manyToOne', 'api::country.country'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    developer: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::project.project'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    project_status: Schema.Attribute.Enumeration<
+      [
+        'Announced',
+        'Development',
+        'Permitting',
+        'Tender',
+        'Pre-FID',
+        'Financial close',
+        'Construction',
+        'Operational',
+      ]
+    > &
+      Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text;
+    technology: Schema.Attribute.Enumeration<
+      [
+        'Solar',
+        'Wind',
+        'Battery Storage',
+        'Hydrogen',
+        'Geothermal',
+        'Hydro',
+        'Gas',
+        'Hybrid',
+      ]
+    > &
+      Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSiteSettingSiteSetting extends Struct.SingleTypeSchema {
+  collectionName: 'site_settings';
+  info: {
+    description: 'Site-wide text: name, tagline, footer, newsletter box and the featured item in the Insights menu.';
+    displayName: 'Site Settings';
+    pluralName: 'site-settings';
+    singularName: 'site-setting';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    copyright_text: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    default_share_image: Schema.Attribute.Media<'images'>;
+    footer_columns: Schema.Attribute.Component<'shared.footer-column', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::site-setting.site-setting'
+    > &
+      Schema.Attribute.Private;
+    menu_featured_insight: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::insight.insight'
+    >;
+    newsletter_button: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Subscribe to the Brief'>;
+    newsletter_heading: Schema.Attribute.String;
+    newsletter_text: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    site_description: Schema.Attribute.Text;
+    site_name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Africa Energy News'>;
+    social_links: Schema.Attribute.Component<'shared.link', true>;
+    tagline: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'Energy intelligence, Africa-first'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -592,7 +1050,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
 export interface ApiTickerTicker extends Struct.CollectionTypeSchema {
   collectionName: 'tickers';
   info: {
-    displayName: 'Ticker';
+    description: 'Short items in the scrolling Africa Energy Brief bar on the home page.';
+    displayName: 'Energy Brief';
     pluralName: 'tickers';
     singularName: 'ticker';
   };
@@ -617,6 +1076,39 @@ export interface ApiTickerTicker extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiVideoVideo extends Struct.CollectionTypeSchema {
+  collectionName: 'videos';
+  info: {
+    description: 'A YouTube video. Reels appear in the home page Reels strip; Videos in Watch & Listen and Events replays.';
+    displayName: 'Video';
+    pluralName: 'videos';
+    singularName: 'video';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    duration: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::video.video'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    source: Schema.Attribute.String;
+    thumbnail: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    video_type: Schema.Attribute.Enumeration<['Reel', 'Video']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Video'>;
+    youtube_url: Schema.Attribute.String;
   };
 }
 
@@ -1134,8 +1626,17 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::article.article': ApiArticleArticle;
       'api::category.category': ApiCategoryCategory;
+      'api::company.company': ApiCompanyCompany;
+      'api::country.country': ApiCountryCountry;
+      'api::deal.deal': ApiDealDeal;
+      'api::event.event': ApiEventEvent;
+      'api::home-page.home-page': ApiHomePageHomePage;
+      'api::insight.insight': ApiInsightInsight;
       'api::page.page': ApiPagePage;
+      'api::project.project': ApiProjectProject;
+      'api::site-setting.site-setting': ApiSiteSettingSiteSetting;
       'api::ticker.ticker': ApiTickerTicker;
+      'api::video.video': ApiVideoVideo;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

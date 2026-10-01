@@ -3,26 +3,29 @@
   "info": {
     "displayName": "seo",
     "icon": "search",
-    "description": ""
+    "description": "Search and social sharing. Leave empty to use the title, summary and main image."
   },
   "options": {},
   "attributes": {
     "metaTitle": {
-      "required": true,
+      "required": false,
       "type": "string",
       "maxLength": 60
     },
     "metaDescription": {
       "type": "string",
-      "required": true,
-      "maxLength": 160,
-      "minLength": 50
+      "required": false,
+      "maxLength": 160
     },
     "metaImage": {
       "type": "media",
       "multiple": false,
-      "required": true,
-      "allowedTypes": ["images", "files", "videos"]
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ]
     },
     "metaSocial": {
       "type": "component",
