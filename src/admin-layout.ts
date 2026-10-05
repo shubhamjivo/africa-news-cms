@@ -24,7 +24,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 5;
+export const LAYOUT_VERSION = 8;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -99,15 +99,20 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
 
   'api::page.page': {
     mainField: 'title',
-    list: ['site_page', 'title', 'kicker'],
-    edit: [['site_page', 'title'], ['kicker'], ['intro'], ['stats'], ['slug'], ['seo']],
+    list: ['title', 'slug', 'updatedAt'],
+    edit: [['title', 'slug'], ['sections'], ['seo']],
     fields: {
-      site_page: { label: 'Page', description: 'Which page of the website this content belongs to.' },
-      title: { label: 'Page heading', placeholder: 'Projects' },
-      kicker: { label: 'Small heading above', placeholder: 'THE PROJECT FILE' },
-      intro: { label: 'Intro text', description: 'Shown under the page heading and used as the search description.' },
-      stats: { label: 'Headline figures', description: 'Optional row of figures under the intro (used on Projects).' },
-      slug: { label: 'Internal ID', description: 'Not used on the website.' },
+      title: { label: 'Page name', description: 'Used for the browser tab and search results.' },
+      slug: {
+        label: 'URL',
+        description:
+          'The page address: home, news, projects, companies, countries, insights, learning-center, technology, reports, opinion, interviews, events, about.',
+      },
+      sections: {
+        label: 'Sections',
+        description:
+          'Content blocks with picks or longer text. The website finds each block by its slug, so keep the slugs as they are.',
+      },
       seo: seoField,
     },
   },
@@ -116,10 +121,11 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
     mainField: 'name',
     defaultSortBy: 'sort_order',
     defaultSortOrder: 'ASC',
-    list: ['name', 'region', 'installed_capacity', 'sort_order'],
+    list: ['name', 'region', 'priority_market', 'sort_order'],
     edit: [
       ['name', 'slug'],
-      ['region', 'market_label'],
+      ['region', 'priority_market'],
+      ['market_label'],
       ['summary', 'image'],
       ['installed_capacity', 'tracked_projects', 'active_companies'],
       ['pipeline_projects', 'sort_order'],
@@ -137,6 +143,10 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
           'Map markers exist for south-africa, kenya, nigeria, egypt, namibia, ethiopia, morocco and ghana.',
       },
       region: { label: 'Region' },
+      priority_market: {
+        label: 'Priority market',
+        description: 'Show on the Countries page (map and Priority markets). Untick for countries only used by projects.',
+      },
       market_label: { label: 'Market description', placeholder: 'Solar and storage market' },
       summary: { label: 'Card line', placeholder: '6,240 MW operating · 118 projects' },
       image: { label: 'Card image' },
@@ -305,33 +315,6 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
     },
   },
 
-  'api::home-page.home-page': {
-    edit: [
-      ['sections'],
-      ['lead_story'],
-      ['what_matters_today'],
-      ['trending', 'missed_it'],
-      ['most_read', 'the_brief'],
-      ['featured_insight'],
-      ['seo'],
-    ],
-    fields: {
-      sections: {
-        label: 'Page sections',
-        description:
-          'The sections of the home page from top to bottom. Drag to reorder, tick Hidden to hide one, and change headings or links. Remove a section to drop it from the page.',
-      },
-      lead_story: { label: 'Lead story', description: 'The big story at the top. Empty: the newest article.' },
-      what_matters_today: { label: 'What Matters Today', description: 'Carousel under the lead. Drag to reorder.' },
-      trending: { label: 'Africa Times · Trending', description: 'Four stories.' },
-      missed_it: { label: 'Africa Times · Missed It', description: 'Four stories.' },
-      most_read: { label: 'Africa Times · Most Read', description: 'Four stories.' },
-      the_brief: { label: 'Africa Times · The Brief', description: 'Four stories.' },
-      featured_insight: { label: 'Featured insight', description: 'Large item in the Insights section. Empty: the newest.' },
-      seo: seoField,
-    },
-  },
-
   'api::site-setting.site-setting': {
     edit: [
       ['site_name', 'tagline'],
@@ -360,17 +343,76 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
   },
 };
 
+const SECTION_SLUG: FieldDoc = {
+  label: 'Section slug',
+  description: 'How the website finds this section. Do not change it on existing sections.',
+};
+
 export const COMPONENTS: Record<string, ViewDoc> = {
-  'home.section': {
-    mainField: 'section',
-    edit: [['section', 'hidden'], ['kicker', 'title'], ['link_label', 'link_url']],
+  'sections.article-list': {
+    mainField: 'slug',
+    edit: [['slug'], ['articles']],
     fields: {
-      section: { label: 'Section' },
-      hidden: { label: 'Hidden', description: 'Hide this section without removing it.' },
-      kicker: { label: 'Small heading', description: 'Optional. Leave empty for the default.' },
-      title: { label: 'Heading', description: 'Optional. Leave empty for the default.' },
-      link_label: { label: 'Link text', placeholder: 'All stories →' },
-      link_url: { label: 'Link', placeholder: '/news' },
+      slug: SECTION_SLUG,
+      articles: {
+        label: 'Articles',
+        description: 'Drag to reorder. Empty shows the newest articles. For the lead story, the first article is used.',
+      },
+    },
+  },
+  'sections.desk-group': {
+    mainField: 'slug',
+    edit: [['slug'], ['desks']],
+    fields: {
+      slug: SECTION_SLUG,
+      desks: { label: 'Desks', description: 'One column each. A desk without articles shows the newest stories.' },
+    },
+  },
+  'sections.insight-list': {
+    mainField: 'slug',
+    edit: [['slug'], ['insights']],
+    fields: {
+      slug: SECTION_SLUG,
+      insights: { label: 'Insights', description: 'The first one is featured. Empty shows the newest guides.' },
+    },
+  },
+  'sections.item-grid': {
+    mainField: 'slug',
+    edit: [['slug', 'title'], ['items']],
+    fields: { slug: SECTION_SLUG, title: { label: 'Heading' }, items: { label: 'Items' } },
+  },
+  'sections.people': {
+    mainField: 'slug',
+    edit: [['slug', 'title'], ['people']],
+    fields: { slug: SECTION_SLUG, title: { label: 'Heading' }, people: { label: 'People' } },
+  },
+  'sections.desk': {
+    mainField: 'title',
+    fields: { title: { label: 'Desk name', placeholder: 'Trending' }, articles: { label: 'Articles', description: 'Four stories.' } },
+  },
+  'sections.text-columns': {
+    mainField: 'slug',
+    edit: [['slug', 'title'], ['left', 'right'], ['note']],
+    fields: {
+      slug: SECTION_SLUG,
+      title: { label: 'Heading' },
+      left: { label: 'Left column', description: 'Leave a blank line between paragraphs.' },
+      right: { label: 'Right column' },
+      note: { label: 'Small line under the text' },
+    },
+  },
+  'shared.text-item': {
+    mainField: 'title',
+    fields: { title: { label: 'Heading' }, text: { label: 'Text' } },
+  },
+  'shared.person': {
+    mainField: 'name',
+    edit: [['name', 'initials'], ['role', 'highlight']],
+    fields: {
+      name: { label: 'Name' },
+      initials: { label: 'Initials', placeholder: 'AC', description: 'Shown on the tile. Defaults to the first letters of the name.' },
+      role: { label: 'Role', placeholder: 'West Africa correspondent · Lagos' },
+      highlight: { label: 'Highlight', description: 'Green tile instead of navy.' },
     },
   },
   'shared.stat': {

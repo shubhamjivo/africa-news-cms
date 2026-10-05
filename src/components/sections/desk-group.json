@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_sections_desk_groups",
+  "info": {
+    "displayName": "Desks",
+    "icon": "apps",
+    "description": "Several columns of hand-picked articles (e.g. Africa Times)"
+  },
+  "options": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "regex": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "desks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.desk"
+    }
+  }
+}

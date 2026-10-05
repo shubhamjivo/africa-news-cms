@@ -33,6 +33,10 @@
       ],
       "required": true
     },
+    "priority_market": {
+      "type": "boolean",
+      "default": true
+    },
     "market_label": {
       "type": "string"
     },

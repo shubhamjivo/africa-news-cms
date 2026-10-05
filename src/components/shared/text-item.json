@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_shared_text_items",
+  "info": {
+    "displayName": "Text item",
+    "icon": "bulletList",
+    "description": "A short heading with one line of text"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "text"
+    }
+  }
+}

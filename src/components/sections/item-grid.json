@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_sections_item_grids",
+  "info": {
+    "displayName": "Item grid",
+    "icon": "grid",
+    "description": "A heading with a grid of short items"
+  },
+  "options": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "regex": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.text-item"
+    }
+  }
+}

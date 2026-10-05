@@ -2,12 +2,24 @@
 
 Where each part of the website is edited in the CMS. Everything goes live when you press **Publish**, usually within a few seconds.
 
+## Pages and sections
+
+Every page of the website is an entry in **Page**, found by its **URL** (slug): `home`, `news`, `projects`, `companies`, `countries`, `insights`, `learning-center`, `technology`, `reports`, `opinion`, `interviews`, `events`, `about`. Each page has **SEO & sharing** for its search title, description and image.
+
+**Sections** hold only content with picks or longer text; headings, intros and links are part of the website design. Each section has a **Section slug** the website uses to find it, so keep slugs as they are.
+
+| Page | Sections |
+|---|---|
+| **home** | `lead-story` (first article is the big story), `what-matters-today` (article picks), `africa-times` (four desks of article picks), `news` (the 8-card News grid), `insights` (first insight is featured). Empty picks show the newest content. |
+| **about** | `intro` (two text columns), `coverage`, `bureaus`, `newsroom` (team). |
+
+Lists of articles, projects, events and so on come from the collection types below, not from sections.
+
 ## Content Manager → Single types
 
 | Entry | Controls |
 |---|---|
-| **Home Page** | **Page sections:** the home page sections from top to bottom. Drag to reorder, tick *Hidden* to hide one, and edit a section's headings and link. **Story picks:** Lead story, What Matters Today, the four Africa Times desks and the featured Insight. If a pick is left empty, the newest stories are shown. |
-| **Site Settings** | Site name, tagline, newsletter box text and button, footer links, social links, copyright line, and the item shown in the Insights drop-down menu. |
+| **Site Settings** | Site name, tagline, newsletter box text and button, footer links, social links, copyright line, and the item shown in the Insights drop-down menu. Shared by every page. |
 
 ## Content Manager → Collection types
 
@@ -20,10 +32,9 @@ Where each part of the website is edited in the CMS. Everything goes live when y
 | **Project** | `/projects` and Project Watch on the home page. The filters are built from the technologies in use. |
 | **Company** | `/companies`. Tick *Company spotlight* on one company to feature it at the top of the page. |
 | **Deal** | Energy Investment Watch on the home page and Recent deals on `/companies`, newest first. |
-| **Country** | `/countries`. Countries with a map shape get a marker on the map; all of them appear under Priority markets. |
+| **Country** | `/countries`. Tick *Priority market* to show a country on the page; those with a map shape also get a marker. |
 | **Event** | `/events`. An event stays listed until its end date has passed. Tick *Featured event* to show it at the top of the page. |
 | **Video** | *Reel*: the home page Reels strip (needs a YouTube link). *Video*: Watch & Listen and the replays on `/events`. |
-| **Page** | The small heading, page heading, intro text and SEO for fixed pages (News, Projects, Companies…). *Headline figures* adds the row of numbers on Projects. |
 
 ## Tips
 
@@ -35,5 +46,6 @@ Where each part of the website is edited in the CMS. Everything goes live when y
 ## For developers
 
 - Field labels, help text and list columns live in `src/admin-layout.ts`. Bump `LAYOUT_VERSION` to re-apply them; this overwrites manual changes made under "Configure the view".
+- `npm run seed:dummy` loads the reference site's dummy articles and story picks (https://jivo-energy-news-development.vercel.app). For development only.
 - `npm run seed` creates example content for empty content types. It is safe to re-run: it only creates missing entries and fills empty fields on Page entries.
 - Publishing calls the website's `/api/revalidate` (`WEBSITE_REVALIDATE_URL` / `WEBSITE_REVALIDATE_SECRET` in `.env`).

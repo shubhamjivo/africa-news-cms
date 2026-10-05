@@ -1,34 +1,97 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
-export interface HomeSection extends Struct.ComponentSchema {
-  collectionName: 'components_home_sections';
+export interface SectionsArticleList extends Struct.ComponentSchema {
+  collectionName: 'components_sections_article_lists';
   info: {
-    description: 'One section of the home page: its heading, link and position';
-    displayName: 'Home section';
-    icon: 'layout';
+    description: 'Hand-picked articles for a section';
+    displayName: 'Article picks';
+    icon: 'file';
   };
   attributes: {
-    hidden: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    kicker: Schema.Attribute.String;
-    link_label: Schema.Attribute.String;
-    link_url: Schema.Attribute.String;
-    section: Schema.Attribute.Enumeration<
-      [
-        'Lead story',
-        'What Matters Today',
-        'Africa Times',
-        'Energy Brief',
-        'News',
-        'Reels',
-        'Project Watch',
-        'Insights',
-        'Investment Watch',
-        'Watch & Listen',
-        'Latest Reports',
-        'Newsletter',
-      ]
-    > &
-      Schema.Attribute.Required;
+    articles: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsDesk extends Struct.ComponentSchema {
+  collectionName: 'components_sections_desks';
+  info: {
+    description: 'A titled column of hand-picked articles';
+    displayName: 'Desk';
+    icon: 'file';
+  };
+  attributes: {
+    articles: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsDeskGroup extends Struct.ComponentSchema {
+  collectionName: 'components_sections_desk_groups';
+  info: {
+    description: 'Several columns of hand-picked articles (e.g. Africa Times)';
+    displayName: 'Desks';
+    icon: 'apps';
+  };
+  attributes: {
+    desks: Schema.Attribute.Component<'sections.desk', true>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsInsightList extends Struct.ComponentSchema {
+  collectionName: 'components_sections_insight_lists';
+  info: {
+    description: 'Hand-picked insights for a section';
+    displayName: 'Insight picks';
+    icon: 'lightbulb';
+  };
+  attributes: {
+    insights: Schema.Attribute.Relation<'oneToMany', 'api::insight.insight'>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsItemGrid extends Struct.ComponentSchema {
+  collectionName: 'components_sections_item_grids';
+  info: {
+    description: 'A heading with a grid of short items';
+    displayName: 'Item grid';
+    icon: 'grid';
+  };
+  attributes: {
+    items: Schema.Attribute.Component<'shared.text-item', true>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface SectionsPeople extends Struct.ComponentSchema {
+  collectionName: 'components_sections_peoples';
+  info: {
+    description: 'A heading with a grid of people';
+    displayName: 'People';
+    icon: 'user';
+  };
+  attributes: {
+    people: Schema.Attribute.Component<'shared.person', true>;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface SectionsTextColumns extends Struct.ComponentSchema {
+  collectionName: 'components_sections_text_columnss';
+  info: {
+    description: 'A heading with two columns of text';
+    displayName: 'Text columns';
+    icon: 'paragraph';
+  };
+  attributes: {
+    left: Schema.Attribute.Text;
+    note: Schema.Attribute.String;
+    right: Schema.Attribute.Text;
+    slug: Schema.Attribute.String & Schema.Attribute.Required;
     title: Schema.Attribute.String;
   };
 }
@@ -103,6 +166,24 @@ export interface SharedMetaSocial extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedPerson extends Struct.ComponentSchema {
+  collectionName: 'components_shared_persons';
+  info: {
+    description: 'A team member';
+    displayName: 'Person';
+    icon: 'user';
+  };
+  attributes: {
+    highlight: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    initials: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 3;
+      }>;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    role: Schema.Attribute.String;
+  };
+}
+
 export interface SharedSeo extends Struct.ComponentSchema {
   collectionName: 'components_shared_seos';
   info: {
@@ -150,16 +231,37 @@ export interface SharedStat extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedTextItem extends Struct.ComponentSchema {
+  collectionName: 'components_shared_text_items';
+  info: {
+    description: 'A short heading with one line of text';
+    displayName: 'Text item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    text: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
-      'home.section': HomeSection;
+      'sections.article-list': SectionsArticleList;
+      'sections.desk': SectionsDesk;
+      'sections.desk-group': SectionsDeskGroup;
+      'sections.insight-list': SectionsInsightList;
+      'sections.item-grid': SectionsItemGrid;
+      'sections.people': SectionsPeople;
+      'sections.text-columns': SectionsTextColumns;
       'shared.energy-mix': SharedEnergyMix;
       'shared.footer-column': SharedFooterColumn;
       'shared.link': SharedLink;
       'shared.meta-social': SharedMetaSocial;
+      'shared.person': SharedPerson;
       'shared.seo': SharedSeo;
       'shared.stat': SharedStat;
+      'shared.text-item': SharedTextItem;
     }
   }
 }

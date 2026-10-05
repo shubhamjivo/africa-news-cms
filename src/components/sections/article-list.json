@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_sections_article_lists",
+  "info": {
+    "displayName": "Article picks",
+    "icon": "file",
+    "description": "Hand-picked articles for a section"
+  },
+  "options": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "regex": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article"
+    }
+  }
+}

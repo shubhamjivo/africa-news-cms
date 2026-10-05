@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_shared_persons",
+  "info": {
+    "displayName": "Person",
+    "icon": "user",
+    "description": "A team member"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "role": {
+      "type": "string"
+    },
+    "initials": {
+      "type": "string",
+      "maxLength": 3
+    },
+    "highlight": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

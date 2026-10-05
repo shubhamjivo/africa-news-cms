@@ -5,33 +5,13 @@
     "singularName": "page",
     "pluralName": "pages",
     "displayName": "Page",
-    "description": "Heading, intro text and SEO for a fixed site page such as News or Projects."
+    "description": "A website page, found by its slug (home, news, projects, about, \u2026). Sections hold content with lots of text or picks; headings and links are part of the website design."
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "site_page": {
-      "type": "enumeration",
-      "enum": [
-        "Home",
-        "News",
-        "Projects",
-        "Companies",
-        "Countries",
-        "Insights",
-        "Learning Center",
-        "Technology",
-        "Reports",
-        "Opinion",
-        "Interviews",
-        "Events",
-        "About"
-      ],
-      "required": true,
-      "unique": true
-    },
     "title": {
       "type": "string"
     },
@@ -39,16 +19,16 @@
       "type": "uid",
       "targetField": "title"
     },
-    "kicker": {
-      "type": "string"
-    },
-    "intro": {
-      "type": "text"
-    },
-    "stats": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.stat"
+    "sections": {
+      "type": "dynamiczone",
+      "components": [
+        "sections.article-list",
+        "sections.desk-group",
+        "sections.insight-list",
+        "sections.text-columns",
+        "sections.item-grid",
+        "sections.people"
+      ]
     },
     "seo": {
       "type": "component",

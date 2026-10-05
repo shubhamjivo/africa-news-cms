@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_sections_text_columnss",
+  "info": {
+    "displayName": "Text columns",
+    "icon": "paragraph",
+    "description": "A heading with two columns of text"
+  },
+  "options": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "regex": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "left": {
+      "type": "text"
+    },
+    "right": {
+      "type": "text"
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

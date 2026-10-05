@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_sections_insight_lists",
+  "info": {
+    "displayName": "Insight picks",
+    "icon": "lightbulb",
+    "description": "Hand-picked insights for a section"
+  },
+  "options": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "regex": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "insights": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::insight.insight"
+    }
+  }
+}

@@ -13,7 +13,8 @@
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "seed:dummy": "tsx scripts/seed-dummy.ts"
   },
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^8.0.0",

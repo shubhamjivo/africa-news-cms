@@ -662,6 +662,8 @@ export interface ApiCountryCountry extends Struct.CollectionTypeSchema {
         },
         number
       >;
+    priority_market: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
     projects: Schema.Attribute.Relation<'oneToMany', 'api::project.project'>;
     publishedAt: Schema.Attribute.DateTime;
     region: Schema.Attribute.Enumeration<
@@ -785,49 +787,6 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
-  collectionName: 'home_pages';
-  info: {
-    description: 'Home page layout and story picks. Sections: order, headings and visibility. Empty story lists fall back to the newest articles.';
-    displayName: 'Home Page';
-    pluralName: 'home-pages';
-    singularName: 'home-page';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    featured_insight: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::insight.insight'
-    >;
-    lead_story: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::home-page.home-page'
-    > &
-      Schema.Attribute.Private;
-    missed_it: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
-    most_read: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
-    publishedAt: Schema.Attribute.DateTime;
-    sections: Schema.Attribute.Component<'home.section', true>;
-    seo: Schema.Attribute.Component<'shared.seo', false>;
-    the_brief: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
-    trending: Schema.Attribute.Relation<'oneToMany', 'api::article.article'>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    what_matters_today: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::article.article'
-    >;
-  };
-}
-
 export interface ApiInsightInsight extends Struct.CollectionTypeSchema {
   collectionName: 'insights';
   info: {
@@ -893,7 +852,7 @@ export interface ApiInsightInsight extends Struct.CollectionTypeSchema {
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
-    description: 'Heading, intro text and SEO for a fixed site page such as News or Projects.';
+    description: 'A website page, found by its slug (home, news, projects, about, \u2026). Sections hold content with lots of text or picks; headings and links are part of the website design.';
     displayName: 'Page';
     pluralName: 'pages';
     singularName: 'page';
@@ -905,34 +864,22 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    intro: Schema.Attribute.Text;
-    kicker: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    seo: Schema.Attribute.Component<'shared.seo', false>;
-    site_page: Schema.Attribute.Enumeration<
+    sections: Schema.Attribute.DynamicZone<
       [
-        'Home',
-        'News',
-        'Projects',
-        'Companies',
-        'Countries',
-        'Insights',
-        'Learning Center',
-        'Technology',
-        'Reports',
-        'Opinion',
-        'Interviews',
-        'Events',
-        'About',
+        'sections.article-list',
+        'sections.desk-group',
+        'sections.insight-list',
+        'sections.text-columns',
+        'sections.item-grid',
+        'sections.people',
       ]
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.UID<'title'>;
-    stats: Schema.Attribute.Component<'shared.stat', true>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1630,7 +1577,6 @@ declare module '@strapi/strapi' {
       'api::country.country': ApiCountryCountry;
       'api::deal.deal': ApiDealDeal;
       'api::event.event': ApiEventEvent;
-      'api::home-page.home-page': ApiHomePageHomePage;
       'api::insight.insight': ApiInsightInsight;
       'api::page.page': ApiPagePage;
       'api::project.project': ApiProjectProject;

@@ -3,9 +3,8 @@
  * section has data and editors have examples to follow.
  *
  * Safe to re-run: entries are matched by slug/title and only created when
- * missing. Existing entries are left alone, except Page entries created before
- * the "site_page" field existed: those are linked by slug and get an empty
- * kicker/intro filled in.
+ * missing. Existing entries are left alone, except Pages with no sections,
+ * which get the default sections.
  *
  *   npm run seed
  *
@@ -169,8 +168,8 @@ const COUNTRIES = [
     latest_policy: 'Evening-peak offtake is what unlocked lender appetite.',
   },
   // Markets referenced by projects but without a map marker.
-  { slug: 'tanzania', name: 'Tanzania', region: 'East Africa' },
-  { slug: 'zambia', name: 'Zambia', region: 'Southern Africa' },
+  { slug: 'tanzania', name: 'Tanzania', region: 'East Africa', priority_market: false },
+  { slug: 'zambia', name: 'Zambia', region: 'Southern Africa', priority_market: false },
 ];
 
 const COMPANIES = [
@@ -286,45 +285,70 @@ const VIDEOS = [
   { title: 'This week in Africa energy: five stories explained', video_type: 'Video', thumbnail: 'video-3.png' },
 ];
 
-const PAGES = [
-  { site_page: 'Home', title: 'Africa Energy News', kicker: '', intro: 'Africa-first energy intelligence covering solar, wind, storage, hydrogen, grid investment, policy, and capital across African markets.' },
-  { site_page: 'News', title: 'News', kicker: 'THE NEWSROOM', intro: 'Dispatches from the African energy beat — markets, policy, projects and capital.' },
+// Pages: one entry per site page, found by slug. Only content with picks or
+// longer text lives in "sections"; headings and intros are part of the site's
+// design. The website looks each section up by its slug.
+const PAGES: { slug: string; title: string; sections: (insights: Map<string, string>) => Record<string, unknown>[] }[] = [
   {
-    site_page: 'Projects', title: 'Projects', kicker: 'THE PROJECT FILE',
-    intro: 'Utility-scale assets moving from announcement to financial close and execution.',
-    stats: [
-      { value: '186 GW', label: 'Tracked pipeline' },
-      { value: '42', label: 'FIDs year to date' },
-      { value: '14', label: 'Priority markets' },
-      { value: '$12.4bn', label: 'Capital closed YTD' },
+    slug: 'home',
+    title: 'Africa Energy News',
+    sections: (insights) => [
+      { __component: 'sections.article-list', slug: 'lead-story', articles: [] },
+      { __component: 'sections.article-list', slug: 'what-matters-today', articles: [] },
+      {
+        __component: 'sections.desk-group', slug: 'africa-times',
+        desks: ['Trending', 'Missed It', 'Most Read', 'The Brief'].map((title) => ({ title, articles: [] })),
+      },
+      {
+        __component: 'sections.insight-list', slug: 'insights',
+        insights: [insights.get('What is renewable energy—and how does it work?')].filter(Boolean),
+      },
     ],
   },
-  { site_page: 'Companies', title: 'Companies', kicker: 'THE DIRECTORY', intro: 'IPPs, DFIs, utilities and offtakers shaping Africa’s energy markets.' },
-  { site_page: 'Countries', title: 'Countries', kicker: 'THE MAP', intro: 'Market-by-market intelligence across the continent’s energy transition.' },
-  { site_page: 'Insights', title: 'Insights', kicker: 'ANALYSIS', intro: 'Long-form reporting, data notes and the outlooks our newsroom publishes.' },
-  { site_page: 'Learning Center', title: 'Learning Center', kicker: 'ANALYSIS', intro: "Guides and explainers on solar, wind, storage, grids, and how Africa's power systems work." },
-  { site_page: 'Technology', title: 'Technology', kicker: 'ANALYSIS', intro: 'Technology coverage of solar, batteries, hydrogen, and grid innovation across African markets.' },
-  { site_page: 'Reports', title: 'Reports', kicker: 'ANALYSIS', intro: 'Research reports on Africa energy investment, storage, solar markets, and hydrogen.' },
-  { site_page: 'Opinion', title: 'Opinion', kicker: 'ANALYSIS', intro: "Commentary and analysis on Africa's energy transition, policy, and capital." },
-  { site_page: 'Interviews', title: 'Interviews', kicker: 'ANALYSIS', intro: "Conversations with developers, financiers, and policymakers shaping Africa's energy sector." },
-  { site_page: 'Events', title: 'Events', kicker: 'THE DIARY', intro: 'Forums, tenders and briefings on the Africa energy calendar.' },
-  { site_page: 'About', title: 'About', kicker: 'THE MASTHEAD', intro: 'Africa Energy is a newsroom covering the continent’s energy transition, Africa-first.' },
-];
-
-// Default home page layout: every section in its current order and wording.
-const HOME_SECTIONS = [
-  { section: 'Lead story' },
-  { section: 'What Matters Today', kicker: 'TODAY', title: 'What Matters Today', link_label: 'All stories →', link_url: '/news' },
-  { section: 'Africa Times', kicker: 'Four desks. One briefing.', title: 'AFRICA TIMES' },
-  { section: 'Energy Brief', title: 'Africa Energy Brief' },
-  { section: 'News', kicker: 'THE NEWSROOM', title: 'News', link_label: 'Latest Africa Energy →', link_url: '/news' },
-  { section: 'Reels', title: 'Reels', link_label: 'VIEW ALL →', link_url: '/news' },
-  { section: 'Project Watch', kicker: 'THE PROJECT FILE', title: 'Project Watch', link_label: 'Explore all projects →', link_url: '/projects' },
-  { section: 'Insights', kicker: 'INSIGHTS', link_label: 'MORE INSIGHTS →', link_url: '/insights' },
-  { section: 'Investment Watch', kicker: 'DEALS & CAPITAL', title: 'Energy Investment Watch', link_label: 'All investment news →', link_url: '/news' },
-  { section: 'Watch & Listen', kicker: 'VIDEO', title: 'Watch & Listen', link_label: 'All videos →', link_url: '/news' },
-  { section: 'Latest Reports', kicker: 'FROM THE DESK', title: 'Latest Reports', link_label: 'Browse the library →', link_url: '/insights' },
-  { section: 'Newsletter' },
+  ...[
+    ['news', 'News'], ['projects', 'Projects'], ['companies', 'Companies'], ['countries', 'Countries'],
+    ['insights', 'Insights'], ['learning-center', 'Learning Center'], ['technology', 'Technology'],
+    ['reports', 'Reports'], ['opinion', 'Opinion'], ['interviews', 'Interviews'], ['events', 'Events'],
+  ].map(([slug, title]) => ({ slug, title, sections: () => [] })),
+  {
+    slug: 'about', title: 'About',
+    sections: () => [
+      {
+        __component: 'sections.text-columns', slug: 'intro', title: 'Energy intelligence, Africa-first.',
+        left: 'Africa Energy is an independent newsroom covering the continent’s energy transition — from utility-scale solar and storage to transmission, hydrogen, offtake and the capital that makes projects bankable.\n\nWe report from Johannesburg, Lagos and Nairobi, and we write for the people who close deals: developers, DFIs, utilities, ministers and offtakers.',
+        right: 'We do not treat Africa as a single market. Each dispatch is tagged to the country, the technology and the money. The project file, the company directory and the country pages are how readers navigate that complexity.',
+        note: 'Founded 2024 · Independent · Subscriber-supported',
+      },
+      {
+        __component: 'sections.item-grid', slug: 'coverage', title: 'What we cover',
+        items: [
+          { title: 'Solar & wind', text: 'Utility-scale generation, hybrid parks, auctions and PPAs.' },
+          { title: 'Storage', text: 'Batteries, pumped hydro and the tenders that firm variable power.' },
+          { title: 'Grid', text: 'Transmission, interconnectors and the utilities that operate them.' },
+          { title: 'Hydrogen', text: 'Export hubs, offtake and the path from announcement to FID.' },
+          { title: 'Capital', text: 'DFIs, commercial banks, M&A and the Mission 300 stack.' },
+          { title: 'Policy', text: 'Tenders, regulation and the politics of energy access.' },
+        ],
+      },
+      {
+        __component: 'sections.item-grid', slug: 'bureaus', title: 'Bureaus',
+        items: [
+          { title: 'Johannesburg', text: 'Southern Africa desk · Projects, storage, Eskom and the SAPP.' },
+          { title: 'Lagos', text: 'West Africa desk · Solar closes, offtake and regional capital.' },
+          { title: 'Nairobi', text: 'East Africa desk · Geothermal, wind, grids and Mission 300.' },
+        ],
+      },
+      {
+        __component: 'sections.people', slug: 'newsroom', title: 'The newsroom',
+        people: [
+          { name: 'Amara Chukwu', role: 'West Africa correspondent · Lagos', initials: 'AC' },
+          { name: 'Naledi Mokoena', role: 'Southern Africa editor · Johannesburg', initials: 'NM' },
+          { name: 'Wanjiku Kariuki', role: 'East Africa correspondent · Nairobi', initials: 'WK', highlight: true },
+          { name: 'Daniel Bekele', role: 'Projects & data · Addis / Nairobi', initials: 'DB' },
+        ],
+      },
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------- run
@@ -397,39 +421,21 @@ async function seed() {
     });
   }
 
-  // Editors already created some pages (home, news, ...) before site_page
-  // existed: link those by slug and only fill fields that are still empty.
+  // Pages are matched by slug. A page that exists without sections (e.g. one
+  // an editor created by hand) gets the default sections; others are left alone.
   for (const page of PAGES) {
-    const slug = slugify(page.site_page);
-    const assigned = await findOne('api::page.page', { site_page: page.site_page }, ['stats']);
-    if (assigned) {
-      // Figures added in a later version of the seed.
-      if ('stats' in page && !(assigned.stats as unknown[] | undefined)?.length) {
-        await strapi.documents('api::page.page').update({
-          documentId: assigned.documentId,
-          data: { stats: page.stats },
-          status: 'published',
-        } as any);
-        created.pageStats = (created.pageStats ?? 0) + 1;
-      }
-      continue;
-    }
-    const unassigned = await findOne('api::page.page', { slug, site_page: { $null: true } }, ['stats']);
-    if (unassigned) {
+    const sections = page.sections(insightIds);
+    const existing = await findOne('api::page.page', { slug: page.slug }, ['sections']);
+    if (!existing) {
+      await ensure('api::page.page', { slug: page.slug }, { slug: page.slug, title: page.title, sections });
+    } else if (sections.length > 0 && !(existing.sections as unknown[] | undefined)?.length) {
       await strapi.documents('api::page.page').update({
-        documentId: unassigned.documentId,
-        data: {
-          site_page: page.site_page,
-          ...(unassigned.kicker ? {} : { kicker: page.kicker }),
-          ...(unassigned.intro ? {} : { intro: page.intro }),
-          ...((unassigned.stats as unknown[] | undefined)?.length || !('stats' in page) ? {} : { stats: page.stats }),
-        },
+        documentId: existing.documentId,
+        data: { sections },
         status: 'published',
       } as any);
-      created.pageLinked = (created.pageLinked ?? 0) + 1;
-      continue;
+      created.pageSections = (created.pageSections ?? 0) + 1;
     }
-    await ensure('api::page.page', { site_page: page.site_page }, { ...page, slug });
   }
 
   await ensureSingle('api::site-setting.site-setting', {
@@ -447,22 +453,6 @@ async function seed() {
       { heading: 'MORE', links: [{ label: 'Insights', url: '/insights' }, { label: 'Events', url: '/events' }, { label: 'About', url: '/about' }] },
     ],
   });
-
-  await ensureSingle('api::home-page.home-page', {
-    featured_insight: insightIds.get('What is renewable energy—and how does it work?'),
-    sections: HOME_SECTIONS,
-  });
-  // Home Page entries created before "sections" existed get the default layout.
-  const home = await strapi
-    .documents('api::home-page.home-page' as any)
-    .findFirst({ populate: ['sections'] } as any);
-  if (home && !(home.sections as unknown[] | undefined)?.length) {
-    await strapi.documents('api::home-page.home-page' as any).update({
-      documentId: home.documentId,
-      data: { sections: HOME_SECTIONS },
-    } as any);
-    created.homeSections = 1;
-  }
 }
 
 (async () => {

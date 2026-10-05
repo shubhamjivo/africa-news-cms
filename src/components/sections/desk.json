@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_sections_desks",
+  "info": {
+    "displayName": "Desk",
+    "icon": "file",
+    "description": "A titled column of hand-picked articles"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article"
+    }
+  }
+}
