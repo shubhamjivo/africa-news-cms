@@ -129,3 +129,10 @@ dist
 build
 .strapi-updater.json
 .strapi-cloud.json
+
+# Strapi generated TypeScript files
+types/generated/
+
+# Local/server-specific configuration
+ecosystem.config.js
+web.config
