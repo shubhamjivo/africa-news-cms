@@ -21,18 +21,6 @@
       "targetField": "title",
       "required": true
     },
-    "insight_type": {
-      "type": "enumeration",
-      "enum": [
-        "Learning Center",
-        "Technology",
-        "Report",
-        "Opinion",
-        "Interview",
-        "Analysis"
-      ],
-      "required": true
-    },
     "label": {
       "type": "string"
     },
@@ -69,6 +57,12 @@
       "allowedTypes": [
         "files"
       ]
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "insights"
     },
     "seo": {
       "type": "component",

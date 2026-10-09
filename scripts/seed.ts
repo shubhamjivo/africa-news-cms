@@ -226,7 +226,7 @@ const EVENTS = [
 
 type InsightSeed = {
   title: string;
-  insight_type: string;
+  tag: string;
   label?: string;
   summary: string;
   cover?: string;
@@ -237,35 +237,35 @@ type InsightSeed = {
 
 const INSIGHTS: InsightSeed[] = [
   {
-    title: 'What is renewable energy—and how does it work?', insight_type: 'Learning Center', label: 'LEARNING CENTER',
+    title: 'What is renewable energy—and how does it work?', tag: 'learning-center', label: 'LEARNING CENTER',
     summary: 'A practical guide to power from sunlight, wind, water and heat—and why these sources naturally replenish.',
     cover: 'insight-cover.jpeg', author: 'Editorial Team', read_time: 7,
   },
-  { title: 'How solar panels turn sunlight into usable electricity', insight_type: 'Learning Center', label: 'SOLAR BASICS', summary: 'A simple look at photovoltaic cells, wiring and inverters.', cover: 'insight-1.png' },
-  { title: 'How batteries keep solar energy available after sunset', insight_type: 'Technology', label: 'BATTERY', summary: 'Stored daytime power supports lights and appliances at night.', cover: 'insight-2.png' },
-  { title: 'How smart grids balance changing renewable power', insight_type: 'Technology', label: 'SMART GRID', summary: 'Forecasting and flexible demand keep supply and use in step.', cover: 'insight-3.png' },
-  { title: 'Solar panels explained: cells, modules and inverters', insight_type: 'Learning Center', summary: 'Learn how individual photovoltaic cells are combined into panels and connected through an inverter.', read_time: 5 },
-  { title: 'How home batteries extend solar use into the night', insight_type: 'Learning Center', summary: 'A battery saves surplus daytime electricity so lights and appliances can run after the sun goes down.', read_time: 6 },
-  { title: 'What happens to solar generation on cloudy days?', insight_type: 'Learning Center', summary: 'Panels still generate electricity in diffuse light, though output changes with cloud cover and system design.', read_time: 4 },
-  { title: 'Can wind and solar power a grid around the clock?', insight_type: 'Learning Center', summary: 'A reliable renewable grid combines diverse locations, storage, transmission and flexible demand.', read_time: 7 },
-  { title: 'Africa Solar Market Outlook', insight_type: 'Report', label: 'REPORT', summary: 'Pipelines, tenders and financing across Africa’s solar markets.', cover: 'report-1.png' },
-  { title: 'Africa Battery Storage Outlook 2026', insight_type: 'Report', label: 'FEATURED REPORT', summary: 'Deployment pipelines, procurement models and financing structures across ten priority markets.', cover: 'report-2.png' },
-  { title: 'Africa Renewable Energy Investment Report', insight_type: 'Report', label: 'REPORT', summary: 'Where capital is flowing across Africa’s renewable energy sector.', cover: 'report-3.png' },
-  { title: 'Africa Green Hydrogen Outlook', insight_type: 'Report', label: 'REPORT', summary: 'Hubs, offtake and export routes for Africa’s green hydrogen projects.', cover: 'report-4.png' },
+  { title: 'How solar panels turn sunlight into usable electricity', tag: 'learning-center', label: 'SOLAR BASICS', summary: 'A simple look at photovoltaic cells, wiring and inverters.', cover: 'insight-1.png' },
+  { title: 'How batteries keep solar energy available after sunset', tag: 'technology', label: 'BATTERY', summary: 'Stored daytime power supports lights and appliances at night.', cover: 'insight-2.png' },
+  { title: 'How smart grids balance changing renewable power', tag: 'technology', label: 'SMART GRID', summary: 'Forecasting and flexible demand keep supply and use in step.', cover: 'insight-3.png' },
+  { title: 'Solar panels explained: cells, modules and inverters', tag: 'learning-center', summary: 'Learn how individual photovoltaic cells are combined into panels and connected through an inverter.', read_time: 5 },
+  { title: 'How home batteries extend solar use into the night', tag: 'learning-center', summary: 'A battery saves surplus daytime electricity so lights and appliances can run after the sun goes down.', read_time: 6 },
+  { title: 'What happens to solar generation on cloudy days?', tag: 'learning-center', summary: 'Panels still generate electricity in diffuse light, though output changes with cloud cover and system design.', read_time: 4 },
+  { title: 'Can wind and solar power a grid around the clock?', tag: 'learning-center', summary: 'A reliable renewable grid combines diverse locations, storage, transmission and flexible demand.', read_time: 7 },
+  { title: 'Africa Solar Market Outlook', tag: 'reports', label: 'REPORT', summary: 'Pipelines, tenders and financing across Africa’s solar markets.', cover: 'report-1.png' },
+  { title: 'Africa Battery Storage Outlook 2026', tag: 'reports', label: 'FEATURED REPORT', summary: 'Deployment pipelines, procurement models and financing structures across ten priority markets.', cover: 'report-2.png' },
+  { title: 'Africa Renewable Energy Investment Report', tag: 'reports', label: 'REPORT', summary: 'Where capital is flowing across Africa’s renewable energy sector.', cover: 'report-3.png' },
+  { title: 'Africa Green Hydrogen Outlook', tag: 'reports', label: 'REPORT', summary: 'Hubs, offtake and export routes for Africa’s green hydrogen projects.', cover: 'report-4.png' },
   {
-    title: 'Mission 300 is a capital stack, not a slogan', insight_type: 'Opinion', label: 'POLICY NOTE', cover: 'latest-grid.png',
+    title: 'Mission 300 is a capital stack, not a slogan', tag: 'opinion', label: 'POLICY NOTE', cover: 'latest-grid.png',
     summary: 'Concessional money is being layered against private offtake in four markets. The test is whether utilities can still sign bankable PPAs.',
   },
   {
-    title: 'Why transmission, not generation, is the 2026 bottleneck', insight_type: 'Analysis', label: 'DATA', cover: 'video-3.png',
+    title: 'Why transmission, not generation, is the 2026 bottleneck', tag: 'analysis', label: 'DATA', cover: 'video-3.png',
     summary: 'Our project file shows 41 GW of shovel-ready renewables waiting on a line. The bid windows will not clear without it.',
   },
   {
-    title: 'West Africa’s solar close is a template, not an outlier', insight_type: 'Analysis', label: 'MARKETS', cover: 'latest-solar.png',
+    title: 'West Africa’s solar close is a template, not an outlier', tag: 'analysis', label: 'MARKETS', cover: 'latest-solar.png',
     summary: 'Pooling DFI capital with regional IPPs solved a currency and offtake problem that single-country auctions could not.',
   },
   {
-    title: 'What Africa’s Grid Bottleneck Means for the Next Decade of Renewables', insight_type: 'Analysis', label: 'THE GREAT READ',
+    title: 'What Africa’s Grid Bottleneck Means for the Next Decade of Renewables', tag: 'analysis', label: 'THE GREAT READ',
     cover: 'insight-featured.png', author: 'Naledi Mokoena', read_time: 8,
     pull_quote: 'Storage will become central to Africa’s renewable-energy growth over the next five years.',
     summary:
@@ -285,8 +285,12 @@ const VIDEOS = [
   { title: 'This week in Africa energy: five stories explained', video_type: 'Video', thumbnail: 'video-3.png' },
 ];
 
-// Tags: one column each in Africa Times on the home page.
-const TAGS = ['Trending', 'Missed It', 'Most Read', 'The Brief'];
+// Tags: the first four are the Africa Times columns on the home page; the
+// rest are the Insights pages an insight appears on.
+const TAGS = [
+  'Trending', 'Missed It', 'Most Read', 'The Brief',
+  'Learning Center', 'Technology', 'Reports', 'Opinion', 'Interviews', 'Analysis',
+];
 
 // Pages: one entry per site page, found by slug. Only content with picks or
 // longer text lives in "sections"; headings and intros are part of the site's
@@ -399,12 +403,19 @@ async function seed() {
     });
   }
 
+  const tagIds = new Map<string, string>();
+  for (const [index, title] of TAGS.entries()) {
+    const slug = slugify(title);
+    tagIds.set(slug, await ensure('api::tag.tag', { slug }, { title, slug, sort_order: index }, false));
+  }
+
   const insightIds = new Map<string, string>();
   for (const insight of INSIGHTS) {
-    const { cover, ...fields } = insight;
+    const { cover, tag, ...fields } = insight;
     const id = await ensure('api::insight.insight', { title: insight.title }, {
       ...fields,
       slug: slugify(insight.title),
+      tags: [tagIds.get(tag)].filter(Boolean),
       content: `<p>${insight.summary}</p>`,
       cover: cover ? await uploadImage(cover, insight.title) : null,
     });
@@ -418,10 +429,6 @@ async function seed() {
       youtube_url: youtube ? `https://www.youtube.com/watch?v=${youtube}` : null,
       thumbnail: thumbnail ? await uploadImage(thumbnail, video.title) : null,
     });
-  }
-
-  for (const [index, title] of TAGS.entries()) {
-    await ensure('api::tag.tag', { slug: slugify(title) }, { title, slug: slugify(title), sort_order: index }, false);
   }
 
   // Pages are matched by slug. A page that exists without sections (e.g. one

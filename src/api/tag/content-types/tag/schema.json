@@ -5,7 +5,7 @@
     "singularName": "tag",
     "pluralName": "tags",
     "displayName": "Tag",
-    "description": "A label for articles, e.g. Trending or Most Read. Each tag is a column in Africa Times on the home page."
+    "description": "A label for articles (e.g. Trending, a column in Africa Times on the home page) and insights (e.g. Reports, Opinion)."
   },
   "options": {
     "draftAndPublish": false
@@ -28,6 +28,12 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::article.article",
+      "mappedBy": "tags"
+    },
+    "insights": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::insight.insight",
       "mappedBy": "tags"
     }
   }

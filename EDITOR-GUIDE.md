@@ -29,7 +29,7 @@ Lists of articles, projects, events and so on come from the collection types bel
 | **Category** | The topic label above headlines and the topic filters on `/news`. |
 | **Tag** | Africa Times on the home page: one column per tag (Trending, Missed It, Most Read, …) with its four newest articles. Tag a story in the article's *Tags* field. *Order* sets the column order; the first four tags that have articles are shown. |
 | **Energy Brief** | The scrolling ticker on the home page. Untick *Show in the brief* to hide an item. |
-| **Insight** | `/insights` and its sub-pages. The *Section* field chooses the sub-page (Learning Center, Technology, Reports, Opinion, Interviews). Each insight also gets its own page at `/insights/<url>`. |
+| **Insight** | `/insights` and its sub-pages. The *Tags* field chooses the sub-pages it appears on (Learning Center, Technology, Reports, Opinion, Interviews); an insight can have several. *Analysis* is for long reads on `/insights`. Each insight also gets its own page at `/insights/<url>`. |
 | **Project** | `/projects` and Project Watch on the home page. The filters are built from the technologies in use. |
 | **Company** | `/companies`. Tick *Company spotlight* on one company to feature it at the top of the page. |
 | **Deal** | Energy Investment Watch on the home page and Recent deals on `/companies`, newest first. |

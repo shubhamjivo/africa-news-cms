@@ -24,7 +24,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 9;
+export const LAYOUT_VERSION = 11;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -95,15 +95,19 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
     defaultSortBy: 'sort_order',
     defaultSortOrder: 'ASC',
     list: ['title', 'slug', 'sort_order'],
-    edit: [['title', 'slug'], ['sort_order'], ['articles']],
+    edit: [['title', 'slug'], ['sort_order'], ['articles'], ['insights']],
     fields: {
-      title: { label: 'Tag name', placeholder: 'Trending', description: 'Shown as the column heading in Africa Times.' },
+      title: { label: 'Tag name', placeholder: 'Trending' },
       slug: { label: 'URL' },
       sort_order: {
         label: 'Order',
-        description: 'Lower numbers come first. Africa Times shows the first four tags that have articles.',
+        description: 'Lower numbers come first. Africa Times on the home page shows the first four tags that have articles.',
       },
-      articles: { label: 'Articles', description: 'The four newest are shown. Articles can also be tagged from the article itself.' },
+      articles: { label: 'Articles', description: 'The four newest are shown as a column in Africa Times.' },
+      insights: {
+        label: 'Insights',
+        description: 'Shown on the Insights page of the same name: Learning Center, Technology, Reports, Opinion, Interviews.',
+      },
     },
   },
 
@@ -290,10 +294,10 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
     mainField: 'title',
     defaultSortBy: 'updatedAt',
     defaultSortOrder: 'DESC',
-    list: ['title', 'insight_type', 'author', 'updatedAt'],
+    list: ['title', 'tags', 'author', 'updatedAt'],
     edit: [
       ['title', 'slug'],
-      ['insight_type', 'label'],
+      ['tags', 'label'],
       ['summary'],
       ['pull_quote'],
       ['cover', 'report_file'],
@@ -304,8 +308,11 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
     fields: {
       title: { label: 'Title' },
       slug: { label: 'URL', description: 'The page address: /insights/<url>.' },
-      insight_type: { label: 'Section', description: 'Which Insights page this appears on.' },
       label: { label: 'Label', placeholder: 'SOLAR BASICS', description: 'Short label above the title.' },
+      tags: {
+        label: 'Tags',
+        description: 'Which Insights pages this appears on: Learning Center, Technology, Reports, Opinion, Interviews or Analysis.',
+      },
       summary: { label: 'Summary' },
       pull_quote: { label: 'Pull quote', description: 'Optional quote shown when this is the featured read.' },
       cover: { label: 'Cover image' },
