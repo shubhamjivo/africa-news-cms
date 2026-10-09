@@ -24,7 +24,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 11;
+export const LAYOUT_VERSION = 12;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -402,7 +402,10 @@ export const COMPONENTS: Record<string, ViewDoc> = {
     edit: [['slug'], ['insights']],
     fields: {
       slug: SECTION_SLUG,
-      insights: { label: 'Insights', description: 'The first one is featured. Empty shows the newest guides.' },
+      insights: {
+        label: 'Insights',
+        description: 'Drag to reorder. Shown first in this part of the home Insights block; the rest is filled with the newest.',
+      },
     },
   },
   'sections.item-grid': {

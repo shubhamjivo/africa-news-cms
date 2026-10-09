@@ -10,7 +10,7 @@ Every page of the website is an entry in **Page**, found by its **URL** (slug): 
 
 | Page | Sections |
 |---|---|
-| **home** | `lead-story` (first article is the big story), `what-matters-today` (article picks), `news` (the 8-card News grid), `insights` (first insight is featured). Empty picks show the newest content. Africa Times is filled from **Tag**, see below. |
+| **home** | `lead-story` (first article is the big story), `what-matters-today` (article picks), `news` (the 8-card News grid), and the four parts of the Insights block: `insights-learning-center` (the lead story, 1), `insights-technology` (the three cards), `insights-opinion` (side list, 2) and `insights-reports` (side list, 3). Picks come first; empty or short picks are filled with the newest content. Africa Times is filled from **Tag**, see below. |
 | **about** | `intro` (two text columns), `coverage`, `bureaus`, `newsroom` (team). |
 
 Lists of articles, projects, events and so on come from the collection types below, not from sections.

@@ -303,9 +303,12 @@ const PAGES: { slug: string; title: string; sections: (insights: Map<string, str
       { __component: 'sections.article-list', slug: 'lead-story', articles: [] },
       { __component: 'sections.article-list', slug: 'what-matters-today', articles: [] },
       {
-        __component: 'sections.insight-list', slug: 'insights',
+        __component: 'sections.insight-list', slug: 'insights-learning-center',
         insights: [insights.get('What is renewable energy—and how does it work?')].filter(Boolean),
       },
+      { __component: 'sections.insight-list', slug: 'insights-technology', insights: [] },
+      { __component: 'sections.insight-list', slug: 'insights-opinion', insights: [] },
+      { __component: 'sections.insight-list', slug: 'insights-reports', insights: [] },
     ],
   },
   ...[
