@@ -285,6 +285,9 @@ const VIDEOS = [
   { title: 'This week in Africa energy: five stories explained', video_type: 'Video', thumbnail: 'video-3.png' },
 ];
 
+// Tags: one column each in Africa Times on the home page.
+const TAGS = ['Trending', 'Missed It', 'Most Read', 'The Brief'];
+
 // Pages: one entry per site page, found by slug. Only content with picks or
 // longer text lives in "sections"; headings and intros are part of the site's
 // design. The website looks each section up by its slug.
@@ -295,10 +298,6 @@ const PAGES: { slug: string; title: string; sections: (insights: Map<string, str
     sections: (insights) => [
       { __component: 'sections.article-list', slug: 'lead-story', articles: [] },
       { __component: 'sections.article-list', slug: 'what-matters-today', articles: [] },
-      {
-        __component: 'sections.desk-group', slug: 'africa-times',
-        desks: ['Trending', 'Missed It', 'Most Read', 'The Brief'].map((title) => ({ title, articles: [] })),
-      },
       {
         __component: 'sections.insight-list', slug: 'insights',
         insights: [insights.get('What is renewable energy—and how does it work?')].filter(Boolean),
@@ -419,6 +418,10 @@ async function seed() {
       youtube_url: youtube ? `https://www.youtube.com/watch?v=${youtube}` : null,
       thumbnail: thumbnail ? await uploadImage(thumbnail, video.title) : null,
     });
+  }
+
+  for (const [index, title] of TAGS.entries()) {
+    await ensure('api::tag.tag', { slug: slugify(title) }, { title, slug: slugify(title), sort_order: index }, false);
   }
 
   // Pages are matched by slug. A page that exists without sections (e.g. one

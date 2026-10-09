@@ -24,7 +24,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 8;
+export const LAYOUT_VERSION = 9;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -36,11 +36,12 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
     mainField: 'title',
     defaultSortBy: 'updatedAt',
     defaultSortOrder: 'DESC',
-    list: ['title', 'category', 'author', 'updatedAt'],
+    list: ['title', 'category', 'tags', 'author', 'updatedAt'],
     edit: [
       ['title', 'slug'],
       ['short_content'],
       ['category', 'markets'],
+      ['tags'],
       ['banner', 'thumbnail'],
       ['gallery'],
       ['content'],
@@ -58,6 +59,10 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       },
       category: { label: 'Topic', description: 'Shown above the headline and used for the /news filters.' },
       markets: { label: 'Countries', placeholder: 'Nigeria · Ghana · Senegal', description: 'Countries the story covers.' },
+      tags: {
+        label: 'Tags',
+        description: 'Optional, e.g. Trending or Most Read. Puts the story in that column of Africa Times on the home page.',
+      },
       banner: { label: 'Main image', description: 'Large image at the top of the article. Landscape, at least 1600px wide.' },
       thumbnail: { label: 'Card image', description: 'Optional smaller image for lists. Uses the main image if empty.' },
       gallery: { label: 'More photos', description: 'Optional. Shown as a slideshow after the main image.' },
@@ -82,6 +87,23 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       title: { label: 'Topic name', placeholder: 'Solar' },
       slug: { label: 'URL', description: 'Used in /news?topic=<url>.' },
       articles: { label: 'Articles' },
+    },
+  },
+
+  'api::tag.tag': {
+    mainField: 'title',
+    defaultSortBy: 'sort_order',
+    defaultSortOrder: 'ASC',
+    list: ['title', 'slug', 'sort_order'],
+    edit: [['title', 'slug'], ['sort_order'], ['articles']],
+    fields: {
+      title: { label: 'Tag name', placeholder: 'Trending', description: 'Shown as the column heading in Africa Times.' },
+      slug: { label: 'URL' },
+      sort_order: {
+        label: 'Order',
+        description: 'Lower numbers come first. Africa Times shows the first four tags that have articles.',
+      },
+      articles: { label: 'Articles', description: 'The four newest are shown. Articles can also be tagged from the article itself.' },
     },
   },
 
@@ -365,7 +387,7 @@ export const COMPONENTS: Record<string, ViewDoc> = {
     edit: [['slug'], ['desks']],
     fields: {
       slug: SECTION_SLUG,
-      desks: { label: 'Desks', description: 'One column each. A desk without articles shows the newest stories.' },
+      desks: { label: 'Desks', description: 'One column each.' },
     },
   },
   'sections.insight-list': {

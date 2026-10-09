@@ -10,7 +10,7 @@ Every page of the website is an entry in **Page**, found by its **URL** (slug): 
 
 | Page | Sections |
 |---|---|
-| **home** | `lead-story` (first article is the big story), `what-matters-today` (article picks), `africa-times` (four desks of article picks), `news` (the 8-card News grid), `insights` (first insight is featured). Empty picks show the newest content. |
+| **home** | `lead-story` (first article is the big story), `what-matters-today` (article picks), `news` (the 8-card News grid), `insights` (first insight is featured). Empty picks show the newest content. Africa Times is filled from **Tag**, see below. |
 | **about** | `intro` (two text columns), `coverage`, `bureaus`, `newsroom` (team). |
 
 Lists of articles, projects, events and so on come from the collection types below, not from sections.
@@ -27,6 +27,7 @@ Lists of articles, projects, events and so on come from the collection types bel
 |---|---|
 | **Article** | `/news`, home page news sections, article pages `/news/<url>`. Set a *Topic*, a *Summary* and a *Main image* on every article. *More photos* turns the main image into a slideshow. |
 | **Category** | The topic label above headlines and the topic filters on `/news`. |
+| **Tag** | Africa Times on the home page: one column per tag (Trending, Missed It, Most Read, …) with its four newest articles. Tag a story in the article's *Tags* field. *Order* sets the column order; the first four tags that have articles are shown. |
 | **Energy Brief** | The scrolling ticker on the home page. Untick *Show in the brief* to hide an item. |
 | **Insight** | `/insights` and its sub-pages. The *Section* field chooses the sub-page (Learning Center, Technology, Reports, Opinion, Interviews). Each insight also gets its own page at `/insights/<url>`. |
 | **Project** | `/projects` and Project Watch on the home page. The filters are built from the technologies in use. |
