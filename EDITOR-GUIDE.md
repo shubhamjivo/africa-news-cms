@@ -19,7 +19,7 @@ Lists of articles, projects, events and so on come from the collection types bel
 
 | Entry | Controls |
 |---|---|
-| **Site Settings** | Site name, tagline, newsletter box text and button, footer links, social links, copyright line, and the item shown in the Insights drop-down menu. Shared by every page. |
+| **Site Settings** | Search defaults (site description, site keywords, default share image, X account, Google verification code), site name, tagline, newsletter box text and button, footer links, social links, copyright line, and the item shown in the Insights drop-down menu. Shared by every page. |
 
 ## Content Manager → Collection types
 
@@ -41,7 +41,8 @@ Lists of articles, projects, events and so on come from the collection types bel
 
 - **Drafts:** *Save* keeps a draft. Only **Publish** makes it visible.
 - **Read time** is filled in automatically from the text if you leave it empty.
-- **SEO & sharing** is optional. Without it, the title, summary and main image are used.
+- **FAQ** on an article or insight is optional. Questions added there appear under the text as "Got questions?".
+- **SEO & sharing** (on every Article, Insight and Page) is optional. *Search title* and *Search description* are what search engines show; *Share image* is used on social media; *Keywords*, *Robots* (e.g. `noindex`) and *Canonical URL* are for special cases. Empty fields use the title, summary and main image, then the defaults in Site Settings.
 - **Images:** landscape, at least 1600 px wide for main images.
 
 ## For developers

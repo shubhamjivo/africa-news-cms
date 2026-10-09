@@ -76,6 +76,11 @@
         "preset": "defaultHtml"
       }
     },
+    "faqs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.faq"
+    },
     "seo": {
       "type": "component",
       "component": "shared.seo",

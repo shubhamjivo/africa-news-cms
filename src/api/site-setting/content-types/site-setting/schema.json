@@ -5,7 +5,7 @@
     "singularName": "site-setting",
     "pluralName": "site-settings",
     "displayName": "Site Settings",
-    "description": "Site-wide text: name, tagline, footer, newsletter box and the featured item in the Insights menu."
+    "description": "Site-wide text and search defaults: name, tagline, description, keywords, share image, footer, newsletter box and the featured item in the Insights menu."
   },
   "options": {
     "draftAndPublish": false
@@ -30,6 +30,16 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "seo_keywords": {
+      "type": "text"
+    },
+    "twitter_handle": {
+      "type": "string",
+      "regex": "^@?[A-Za-z0-9_]{1,15}$"
+    },
+    "google_site_verification": {
+      "type": "string"
     },
     "newsletter_heading": {
       "type": "string"

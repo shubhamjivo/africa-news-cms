@@ -24,11 +24,11 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 12;
+export const LAYOUT_VERSION = 14;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
-  description: 'Optional. Leave empty to use the title, summary and main image.',
+  description: 'Optional. Empty fields use the title, summary and main image, then the defaults in Site Settings.',
 };
 
 export const CONTENT_TYPES: Record<string, ViewDoc> = {
@@ -45,6 +45,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['banner', 'thumbnail'],
       ['gallery'],
       ['content'],
+      ['faqs'],
       ['author', 'co_author'],
       ['source', 'read_time'],
       ['related_articles', 'ticker'],
@@ -67,6 +68,10 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       thumbnail: { label: 'Card image', description: 'Optional smaller image for lists. Uses the main image if empty.' },
       gallery: { label: 'More photos', description: 'Optional. Shown as a slideshow after the main image.' },
       content: { label: 'Article text' },
+      faqs: {
+        label: 'FAQ',
+        description: 'Optional questions and answers shown under the text as "Got questions?".',
+      },
       author: { label: 'Author' },
       co_author: { label: 'Co-authors', placeholder: 'Name, Name' },
       source: { label: 'Source', description: 'Optional, e.g. Reuters.' },
@@ -302,6 +307,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['pull_quote'],
       ['cover', 'report_file'],
       ['content'],
+      ['faqs'],
       ['author', 'read_time'],
       ['seo'],
     ],
@@ -318,6 +324,10 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       cover: { label: 'Cover image' },
       report_file: { label: 'Report PDF', description: 'For reports: the downloadable file.' },
       content: { label: 'Text' },
+      faqs: {
+        label: 'FAQ',
+        description: 'Optional questions and answers shown under the text as "Got questions?".',
+      },
       author: { label: 'Author', placeholder: 'Editorial Team' },
       read_time: { label: 'Read time (minutes)', description: 'Calculated automatically from the text if left empty.' },
       seo: seoField,
@@ -349,6 +359,8 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['site_name', 'tagline'],
       ['site_description'],
       ['default_share_image'],
+      ['seo_keywords'],
+      ['twitter_handle', 'google_site_verification'],
       ['newsletter_heading', 'newsletter_button'],
       ['newsletter_text'],
       ['menu_featured_insight'],
@@ -359,8 +371,21 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
     fields: {
       site_name: { label: 'Site name' },
       tagline: { label: 'Tagline', description: 'Shown in the footer.' },
-      site_description: { label: 'Site description', description: 'Used by search engines for the home page.' },
+      site_description: {
+        label: 'Site description',
+        description: 'The default search description, used by the home page and any page without its own.',
+      },
       default_share_image: { label: 'Default share image', description: 'Used when a page has no image of its own.' },
+      seo_keywords: {
+        label: 'Site keywords',
+        placeholder: 'Africa energy news, solar, wind, battery storage',
+        description: 'Comma-separated. Used on every page that has no keywords of its own.',
+      },
+      twitter_handle: { label: 'X (Twitter) account', placeholder: '@africaenergynews', description: 'Credited when a page is shared on X.' },
+      google_site_verification: {
+        label: 'Google verification code',
+        description: 'The code from Google Search Console (the content value of the verification tag).',
+      },
       newsletter_heading: { label: 'Newsletter heading' },
       newsletter_text: { label: 'Newsletter text' },
       newsletter_button: { label: 'Newsletter button', placeholder: 'Subscribe to the Brief' },
@@ -447,6 +472,13 @@ export const COMPONENTS: Record<string, ViewDoc> = {
       highlight: { label: 'Highlight', description: 'Green tile instead of navy.' },
     },
   },
+  'shared.faq': {
+    mainField: 'question',
+    fields: {
+      question: { label: 'Question', placeholder: 'What is a power purchase agreement?' },
+      answer: { label: 'Answer', description: 'Leave a blank line between paragraphs.' },
+    },
+  },
   'shared.stat': {
     mainField: 'value',
     fields: { value: { label: 'Figure', placeholder: '6.2 GW' }, label: { label: 'Label', placeholder: 'Operating' } },
@@ -467,15 +499,15 @@ export const COMPONENTS: Record<string, ViewDoc> = {
     mainField: 'metaTitle',
     edit: [['metaTitle'], ['metaDescription'], ['metaImage'], ['keywords'], ['canonicalURL', 'metaRobots']],
     fields: {
-      metaTitle: { label: 'Search title', description: 'Up to 60 characters.' },
-      metaDescription: { label: 'Search description', description: 'Up to 160 characters.' },
-      metaImage: { label: 'Share image' },
+      metaTitle: { label: 'Search title', description: 'The page title in search results and browser tabs. Up to 60 characters.' },
+      metaDescription: { label: 'Search description', description: 'The text under the title in search results. Up to 160 characters.' },
+      metaImage: { label: 'Share image', description: 'Shown when the page is shared. Landscape, 1200 × 630 px or larger.' },
       keywords: { label: 'Keywords', placeholder: 'solar, Nigeria, financing' },
       canonicalURL: { label: 'Canonical URL', description: 'Advanced. Only if this content first appeared elsewhere.' },
       metaRobots: { label: 'Robots', placeholder: 'noindex', description: 'Advanced. Leave empty to allow indexing.' },
-      metaSocial: { label: 'Social overrides', description: 'Advanced.' },
-      structuredData: { label: 'Structured data (JSON)', description: 'Advanced.' },
-      metaViewport: { label: 'Viewport', description: 'Advanced. Leave empty.' },
+      metaSocial: { label: 'Social overrides', description: 'Optional. A different title, text or image for Facebook or X (Twitter).' },
+      structuredData: { label: 'Structured data (JSON)', description: 'Advanced. Extra schema.org JSON-LD added to the page.' },
+      metaViewport: { label: 'Viewport', description: 'Not used by the website. Leave empty.' },
     },
   },
 };
