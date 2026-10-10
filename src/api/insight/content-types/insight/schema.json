@@ -69,6 +69,11 @@
       "target": "api::tag.tag",
       "inversedBy": "insights"
     },
+    "related_insights": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::insight.insight"
+    },
     "seo": {
       "type": "component",
       "repeatable": false,

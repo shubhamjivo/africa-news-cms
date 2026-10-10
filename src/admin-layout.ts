@@ -24,7 +24,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 14;
+export const LAYOUT_VERSION = 15;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -309,6 +309,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['content'],
       ['faqs'],
       ['author', 'read_time'],
+      ['related_insights'],
       ['seo'],
     ],
     fields: {
@@ -330,7 +331,22 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       },
       author: { label: 'Author', placeholder: 'Editorial Team' },
       read_time: { label: 'Read time (minutes)', description: 'Calculated automatically from the text if left empty.' },
+      related_insights: {
+        label: 'Related insights',
+        description: 'Shown first in the Related Insights list beside the text. Up to three; the rest is filled with the newest from the same page.',
+      },
       seo: seoField,
+    },
+  },
+
+  'api::subscriber.subscriber': {
+    mainField: 'email',
+    defaultSortBy: 'createdAt',
+    defaultSortOrder: 'DESC',
+    list: ['email', 'source', 'createdAt'],
+    fields: {
+      email: { label: 'Email' },
+      source: { label: 'Signed up from', description: 'Where on the website the reader subscribed.' },
     },
   },
 

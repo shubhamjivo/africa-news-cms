@@ -46,8 +46,13 @@ async function notifyWebsite(strapi: Core.Strapi) {
 export default {
   register({ strapi }: { strapi: Core.Strapi }) {
     strapi.documents.use(async (context, next) => {
-      // Every api:: content type is rendered by the website.
-      if (!context.uid.startsWith('api::') || !WRITE_ACTIONS.has(context.action)) {
+      // Every api:: content type is rendered by the website, except the
+      // subscriber list.
+      if (
+        !context.uid.startsWith('api::') ||
+        context.uid === 'api::subscriber.subscriber' ||
+        !WRITE_ACTIONS.has(context.action)
+      ) {
         return next();
       }
 
