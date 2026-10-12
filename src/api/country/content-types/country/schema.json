@@ -24,14 +24,14 @@
     },
     "region": {
       "type": "enumeration",
+      "required": true,
       "enum": [
         "North Africa",
         "West Africa",
         "Central Africa",
         "East Africa",
         "Southern Africa"
-      ],
-      "required": true
+      ]
     },
     "priority_market": {
       "type": "boolean",
@@ -67,8 +67,8 @@
     },
     "energy_mix": {
       "type": "component",
-      "repeatable": true,
-      "component": "shared.energy-mix"
+      "component": "shared.energy-mix",
+      "repeatable": true
     },
     "latest_news": {
       "type": "text"
