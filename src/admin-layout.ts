@@ -24,7 +24,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 15;
+export const LAYOUT_VERSION = 16;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -36,11 +36,12 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
     mainField: 'title',
     defaultSortBy: 'updatedAt',
     defaultSortOrder: 'DESC',
-    list: ['title', 'category', 'tags', 'author', 'updatedAt'],
+    list: ['title', 'category', 'country', 'project', 'updatedAt'],
     edit: [
       ['title', 'slug'],
       ['short_content'],
       ['category', 'markets'],
+      ['country', 'project'],
       ['tags'],
       ['banner', 'thumbnail'],
       ['gallery'],
@@ -59,7 +60,19 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
         description: 'One or two sentences shown under the headline on cards and at the top of the article.',
       },
       category: { label: 'Topic', description: 'Shown above the headline and used for the /news filters.' },
-      markets: { label: 'Countries', placeholder: 'Nigeria · Ghana · Senegal', description: 'Countries the story covers.' },
+      markets: {
+        label: 'Markets line',
+        placeholder: 'Nigeria · Ghana · Senegal',
+        description: 'Free text shown next to the date on cards.',
+      },
+      country: {
+        label: 'Country',
+        description: 'Optional. Lists the story under this country on the Countries page.',
+      },
+      project: {
+        label: 'Project',
+        description: 'Optional. Lists the story under this project on the Projects page.',
+      },
       tags: {
         label: 'Tags',
         description: 'Optional, e.g. Trending or Most Read. Puts the story in that column of Africa Times on the home page.',
@@ -165,6 +178,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['latest_investment'],
       ['latest_policy'],
       ['projects'],
+      ['articles'],
     ],
     fields: {
       name: { label: 'Country' },
@@ -191,6 +205,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       latest_policy: { label: 'Latest policy line' },
       sort_order: { label: 'Order', description: 'Lower numbers come first.' },
       projects: { label: 'Projects in this country' },
+      articles: { label: 'Articles', description: 'Stories about this country. The newest are listed on the Countries page.' },
     },
   },
 
@@ -233,6 +248,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['country', 'developer'],
       ['capacity', 'image'],
       ['summary'],
+      ['articles'],
     ],
     fields: {
       name: { label: 'Project name' },
@@ -244,6 +260,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       capacity: { label: 'Capacity', placeholder: '80 MW / 320 MWh' },
       image: { label: 'Image' },
       summary: { label: 'Summary', description: 'Optional notes about the project.' },
+      articles: { label: 'Articles', description: 'Stories about this project. The newest are listed on the Projects page.' },
     },
   },
 

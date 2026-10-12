@@ -98,6 +98,18 @@
       "target": "api::tag.tag",
       "inversedBy": "articles"
     },
+    "country": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::country.country",
+      "inversedBy": "articles"
+    },
+    "project": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::project.project",
+      "inversedBy": "articles"
+    },
     "ticker": {
       "type": "relation",
       "relation": "oneToOne",

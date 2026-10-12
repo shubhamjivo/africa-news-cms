@@ -25,16 +25,16 @@ Lists of articles, projects, events and so on come from the collection types bel
 
 | Type | Appears on |
 |---|---|
-| **Article** | `/news`, home page news sections, article pages `/news/<url>`. Set a *Topic*, a *Summary* and a *Main image* on every article. *More photos* turns the main image into a slideshow. |
+| **Article** | `/news`, home page news sections, article pages `/news/<url>`. Set a *Topic*, a *Summary* and a *Main image* on every article. *More photos* turns the main image into a slideshow. Pick a *Country* and/or a *Project* to list the story on `/countries` and `/projects`. |
 | **Category** | The topic label above headlines and the topic filters on `/news`. |
 | **Tag** | Africa Times on the home page: one column per tag (Trending, Missed It, Most Read, …) with its four newest articles. Tag a story in the article's *Tags* field. *Order* sets the column order; the first four tags that have articles are shown. |
 | **Energy Brief** | The scrolling ticker on the home page. Untick *Show in the brief* to hide an item. |
 | **Insight** | `/insights` and its sub-pages. The *Tags* field chooses the sub-pages it appears on (Learning Center, Technology, Reports, Opinion, Interviews); an insight can have several. *Analysis* is for long reads on `/insights`. Each insight also gets its own page at `/insights/<url>`; *Related insights* picks what is listed beside it. |
 | **Subscriber** | Email addresses collected by the Subscribe pop-up on the website, newest first. Not shown anywhere on the site. |
-| **Project** | `/projects` and Project Watch on the home page. The filters are built from the technologies in use. |
+| **Project** | `/projects` and Project Watch on the home page. The filters are built from the technologies in use. *Project news* lists the newest articles whose *Project* field points here. |
 | **Company** | `/companies`. Tick *Company spotlight* on one company to feature it at the top of the page. |
 | **Deal** | Energy Investment Watch on the home page and Recent deals on `/companies`, newest first. |
-| **Country** | `/countries`. Tick *Priority market* to show a country on the page; those with a map shape also get a marker. |
+| **Country** | `/countries`. Tick *Priority market* to show a country on the page; those with a map shape also get a marker. Selecting a country shows the newest articles whose *Country* field points to it. |
 | **Event** | `/events`. An event stays listed until its end date has passed. Tick *Featured event* to show it at the top of the page. |
 | **Video** | *Reel*: the home page Reels strip (needs a YouTube link). *Video*: Watch & Listen and the replays on `/events`. |
 

@@ -70,6 +70,12 @@
     },
     "summary": {
       "type": "text"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article",
+      "mappedBy": "project"
     }
   }
 }
