@@ -119,6 +119,12 @@
       "target": "api::project.project",
       "inversedBy": "articles"
     },
+    "company": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::company.company",
+      "inversedBy": "articles"
+    },
     "ticker": {
       "type": "relation",
       "relation": "oneToOne",

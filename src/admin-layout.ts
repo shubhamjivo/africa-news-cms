@@ -24,7 +24,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 16;
+export const LAYOUT_VERSION = 17;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -42,7 +42,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['short_content'],
       ['category', 'markets'],
       ['country', 'project'],
-      ['tags'],
+      ['company', 'tags'],
       ['banner', 'thumbnail'],
       ['gallery'],
       ['content'],
@@ -72,6 +72,10 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       project: {
         label: 'Project',
         description: 'Optional. Lists the story under this project on the Projects page.',
+      },
+      company: {
+        label: 'Company',
+        description: 'Optional. Lists the story under this company on the Companies page.',
       },
       tags: {
         label: 'Tags',
@@ -222,6 +226,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['description'],
       ['is_spotlight'],
       ['spotlight_stats'],
+      ['articles'],
     ],
     fields: {
       name: { label: 'Company name' },
@@ -234,6 +239,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       description: { label: 'About', description: 'Shown when the company is the spotlight.' },
       is_spotlight: { label: 'Company spotlight', description: 'Feature this company at the top of the Companies page.' },
       spotlight_stats: { label: 'Spotlight figures', description: 'Up to three figures shown in the spotlight.' },
+      articles: { label: 'Articles', description: 'Stories about this company. The newest are listed on the Companies page.' },
     },
   },
 
