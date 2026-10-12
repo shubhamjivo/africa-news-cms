@@ -21,10 +21,12 @@ type ViewDoc = {
   list?: string[];
   /** Edit form rows, top to bottom. Fields left out keep their place below. */
   edit?: string[][];
+  /** Fields kept out of the edit form (edited elsewhere, e.g. a side panel). */
+  hidden?: string[];
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 17;
+export const LAYOUT_VERSION = 19;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -52,9 +54,12 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['related_articles', 'ticker'],
       ['seo'],
     ],
+    // Shown in the Schedule side panel (src/admin/SchedulePanel.tsx).
+    hidden: ['scheduled_publish_at'],
     fields: {
       title: { label: 'Headline', placeholder: 'Kenya accelerates solar and wind as grid investment grows' },
       slug: { label: 'URL', description: 'The page address: /news/<url>. Generated from the headline.' },
+      scheduled_publish_at: { label: 'Scheduled for' },
       short_content: {
         label: 'Summary',
         description: 'One or two sentences shown under the headline on cards and at the top of the article.',
@@ -586,7 +591,7 @@ function applyDoc(config: Configuration, doc: ViewDoc): Configuration {
   if (doc.edit) {
     const sizes = new Map<string, number>();
     for (const cell of next.layouts.edit.flat()) sizes.set(cell.name, cell.size);
-    const placed = new Set<string>();
+    const placed = new Set<string>(doc.hidden);
     const rows: EditCell[][] = [];
 
     for (const row of doc.edit) {

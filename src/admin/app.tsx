@@ -2,6 +2,7 @@ import type { StrapiApp } from '@strapi/strapi/admin';
 import AuthLogo from './extensions/logo-auth.png';
 import MenuLogo from './extensions/logo-menu.png';
 import Favicon from './extensions/favicon.png';
+import { SchedulePanel } from './SchedulePanel';
 
 // Brand colours of the website (africa-energy-news/app/globals.css).
 const NAVY_900 = '#030e50';
@@ -73,7 +74,10 @@ export default {
     notifications: { releases: false },
     locales: [],
   },
-  bootstrap(_app: StrapiApp) {
+  bootstrap(app: StrapiApp) {
+    // "Schedule" box in the right-hand column of the article edit page.
+    (app.getPlugin('content-manager') as any).apis.addEditViewSidePanel([SchedulePanel]);
+
     // Same typeface as the website.
     const link = document.createElement('link');
     link.rel = 'stylesheet';

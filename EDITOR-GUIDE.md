@@ -41,6 +41,7 @@ Lists of articles, projects, events and so on come from the collection types bel
 ## Tips
 
 - **Drafts:** *Save* keeps a draft. Only **Publish** makes it visible.
+- **Scheduling:** on an Article, set the date and time in the *Schedule* box on the right (under Publish / Save) and press *Save* (not Publish). The article is published automatically within a minute of that time. Clear the field and save to cancel.
 - **Read time** is filled in automatically from the text if you leave it empty.
 - **FAQ** on an article or insight is optional. Questions added there appear under the text as "Got questions?".
 - **SEO & sharing** (on every Article, Insight and Page) is optional. *Search title* and *Search description* are what search engines show; *Share image* is used on social media; *Keywords*, *Robots* (e.g. `noindex`) and *Canonical URL* are for special cases. Empty fields use the title, summary and main image, then the defaults in Site Settings.
@@ -51,4 +52,5 @@ Lists of articles, projects, events and so on come from the collection types bel
 - Field labels, help text and list columns live in `src/admin-layout.ts`. Bump `LAYOUT_VERSION` to re-apply them; this overwrites manual changes made under "Configure the view".
 - `npm run seed:dummy` loads the reference site's dummy articles and story picks (https://jivo-energy-news-development.vercel.app). For development only.
 - `npm run seed` creates example content for empty content types. It is safe to re-run: it only creates missing entries and fills empty fields on Page entries.
+- Scheduled articles are published by the cron task in `config/cron-tasks.ts`, which runs every minute. Set `CRON_ENABLED=false` in `.env` to turn it off (e.g. on all but one instance when running several).
 - Publishing calls the website's `/api/revalidate` (`WEBSITE_REVALIDATE_URL` / `WEBSITE_REVALIDATE_SECRET` in `.env`).

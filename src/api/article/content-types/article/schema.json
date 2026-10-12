@@ -59,6 +59,10 @@
     "read_time": {
       "type": "integer"
     },
+    "scheduled_publish_at": {
+      "type": "datetime",
+      "private": true
+    },
     "source": {
       "type": "string"
     },
