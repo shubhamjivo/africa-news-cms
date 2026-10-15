@@ -44,7 +44,7 @@ Lists of articles, projects, events and so on come from the collection types bel
 - **Scheduling:** on an Article, set the date and time in the *Schedule* box on the right (under Publish / Save) and press *Save* (not Publish). The article is published automatically within a minute of that time. Clear the field and save to cancel.
 - **Read time** is filled in automatically from the text if you leave it empty.
 - **FAQ** on an article or insight is optional. Questions added there appear under the text as "Got questions?".
-- **SEO & sharing** (on every Article, Insight and Page) is optional. *Search title* and *Search description* are what search engines show; *Share image* is used on social media; *Keywords*, *Robots* (e.g. `noindex`) and *Canonical URL* are for special cases. Empty fields use the title, summary and main image, then the defaults in Site Settings.
+- **SEO & sharing** (on every Article, Insight and Page) is optional. *Search title* (30–70 characters) is used as written in search results and browser tabs. *Search description* (120–200 characters) is the text under it. *Keywords* are comma-separated search terms. *Share image* is used on social media. Tick *Hide from search engines* to keep a page out of Google. *Canonical URL* is only for content that first appeared elsewhere. Empty fields use the title, summary and main image, then the defaults in Site Settings. Length limits are checked when you **Publish**, not when you save a draft.
 - **Images:** landscape, at least 1600 px wide for main images.
 
 ## For developers

@@ -26,7 +26,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 19;
+export const LAYOUT_VERSION = 21;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -541,17 +541,20 @@ export const COMPONENTS: Record<string, ViewDoc> = {
   },
   'shared.seo': {
     mainField: 'metaTitle',
-    edit: [['metaTitle'], ['metaDescription'], ['metaImage'], ['keywords'], ['canonicalURL', 'metaRobots']],
+    edit: [['metaTitle'], ['metaDescription'], ['metaImage'], ['keywords'], ['noIndex', 'canonicalURL']],
     fields: {
-      metaTitle: { label: 'Search title', description: 'The page title in search results and browser tabs. Up to 60 characters.' },
-      metaDescription: { label: 'Search description', description: 'The text under the title in search results. Up to 160 characters.' },
+      metaTitle: {
+        label: 'Search title',
+        description: 'The full title in search results and browser tabs, used as written. 30–70 characters.',
+      },
+      metaDescription: {
+        label: 'Search description',
+        description: 'The text under the title in search results and when shared. 120–200 characters.',
+      },
       metaImage: { label: 'Share image', description: 'Shown when the page is shared. Landscape, 1200 × 630 px or larger.' },
-      keywords: { label: 'Keywords', placeholder: 'solar, Nigeria, financing' },
+      keywords: { label: 'Keywords', placeholder: 'solar, Nigeria, financing', description: 'Comma-separated.' },
+      noIndex: { label: 'Hide from search engines', description: 'Keeps this page out of Google. Leave off for normal content.' },
       canonicalURL: { label: 'Canonical URL', description: 'Advanced. Only if this content first appeared elsewhere.' },
-      metaRobots: { label: 'Robots', placeholder: 'noindex', description: 'Advanced. Leave empty to allow indexing.' },
-      metaSocial: { label: 'Social overrides', description: 'Optional. A different title, text or image for Facebook or X (Twitter).' },
-      structuredData: { label: 'Structured data (JSON)', description: 'Advanced. Extra schema.org JSON-LD added to the page.' },
-      metaViewport: { label: 'Viewport', description: 'Not used by the website. Leave empty.' },
     },
   },
 };

@@ -8,43 +8,31 @@
   "options": {},
   "attributes": {
     "metaTitle": {
-      "required": false,
       "type": "string",
-      "maxLength": 60
+      "required": false,
+      "minLength": 30,
+      "maxLength": 70
     },
     "metaDescription": {
-      "type": "string",
+      "type": "text",
       "required": false,
-      "maxLength": 160
+      "minLength": 120,
+      "maxLength": 200
     },
     "metaImage": {
       "type": "media",
       "multiple": false,
       "required": false,
       "allowedTypes": [
-        "images",
-        "files",
-        "videos"
+        "images"
       ]
     },
-    "metaSocial": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.meta-social"
-    },
     "keywords": {
-      "type": "text",
-      "regex": "[^,]+"
+      "type": "text"
     },
-    "metaRobots": {
-      "type": "string",
-      "regex": "[^,]+"
-    },
-    "structuredData": {
-      "type": "json"
-    },
-    "metaViewport": {
-      "type": "string"
+    "noIndex": {
+      "type": "boolean",
+      "default": false
     },
     "canonicalURL": {
       "type": "string"
