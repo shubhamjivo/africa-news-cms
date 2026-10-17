@@ -90,7 +90,7 @@
       "type": "component",
       "component": "shared.faq",
       "repeatable": true,
-      "required": true
+      "required": false
     },
     "seo": {
       "type": "component",
