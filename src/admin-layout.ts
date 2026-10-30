@@ -44,8 +44,7 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['short_content'],
       ['category', 'markets'],
       ['country', 'project'],
-      ['investment_amount', 'investment_currency'],
-      ['tags'],
+      ['investment_amount', 'tags'],
       ['banner', 'thumbnail'],
       ['gallery'],
       ['content'],
@@ -81,10 +80,9 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       },
       investment_amount: {
         label: 'Investment amount',
-        placeholder: '340000000',
-        description: 'Optional. The full amount, e.g. 340000000 for 340 million. Shown as $340M in Energy Investment Watch on the home page.',
+        placeholder: '$340M',
+        description: 'Optional. Shown as written next to the story in Energy Investment Watch on the home page.',
       },
-      investment_currency: { label: 'Currency', description: 'Currency of the investment amount.' },
       tags: {
         label: 'Tags',
         description: 'Optional, e.g. Trending or Most Read. Puts the story in that column of Africa Times on the home page.',

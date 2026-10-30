@@ -74,24 +74,7 @@
       "type": "string"
     },
     "investment_amount": {
-      "type": "decimal",
-      "min": 0
-    },
-    "investment_currency": {
-      "type": "enumeration",
-      "enum": [
-        "USD",
-        "EUR",
-        "GBP",
-        "ZAR",
-        "NGN",
-        "KES",
-        "EGP",
-        "MAD",
-        "GHS",
-        "XOF"
-      ],
-      "default": "USD"
+      "type": "string"
     },
     "related_articles": {
       "type": "relation",
