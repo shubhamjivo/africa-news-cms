@@ -64,12 +64,6 @@
       "type": "component",
       "repeatable": true,
       "component": "shared.stat"
-    },
-    "articles": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::article.article",
-      "mappedBy": "company"
     }
   }
 }

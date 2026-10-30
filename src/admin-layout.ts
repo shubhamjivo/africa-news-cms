@@ -26,7 +26,7 @@ type ViewDoc = {
   fields: Record<string, FieldDoc>;
 };
 
-export const LAYOUT_VERSION = 21;
+export const LAYOUT_VERSION = 22;
 
 const seoField: FieldDoc = {
   label: 'SEO & sharing',
@@ -44,7 +44,8 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['short_content'],
       ['category', 'markets'],
       ['country', 'project'],
-      ['company', 'tags'],
+      ['investment_amount', 'investment_currency'],
+      ['tags'],
       ['banner', 'thumbnail'],
       ['gallery'],
       ['content'],
@@ -78,10 +79,12 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
         label: 'Project',
         description: 'Optional. Lists the story under this project on the Projects page.',
       },
-      company: {
-        label: 'Company',
-        description: 'Optional. Lists the story under this company on the Companies page.',
+      investment_amount: {
+        label: 'Investment amount',
+        placeholder: '340000000',
+        description: 'Optional. The full amount, e.g. 340000000 for 340 million. Shown as $340M in Energy Investment Watch on the home page.',
       },
+      investment_currency: { label: 'Currency', description: 'Currency of the investment amount.' },
       tags: {
         label: 'Tags',
         description: 'Optional, e.g. Trending or Most Read. Puts the story in that column of Africa Times on the home page.',
@@ -231,7 +234,6 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       ['description'],
       ['is_spotlight'],
       ['spotlight_stats'],
-      ['articles'],
     ],
     fields: {
       name: { label: 'Company name' },
@@ -244,7 +246,6 @@ export const CONTENT_TYPES: Record<string, ViewDoc> = {
       description: { label: 'About', description: 'Shown when the company is the spotlight.' },
       is_spotlight: { label: 'Company spotlight', description: 'Feature this company at the top of the Companies page.' },
       spotlight_stats: { label: 'Spotlight figures', description: 'Up to three figures shown in the spotlight.' },
-      articles: { label: 'Articles', description: 'Stories about this company. The newest are listed on the Companies page.' },
     },
   },
 
