@@ -31,7 +31,8 @@
         "Webinar",
         "Forum",
         "Conference",
-        "Exhibition"
+        "Exhibition",
+        "Award"
       ],
       "required": true
     },

@@ -31,7 +31,8 @@
         "Geothermal",
         "Hydro",
         "Gas",
-        "Hybrid"
+        "Hybrid",
+        "Desalination"
       ],
       "required": true
     },

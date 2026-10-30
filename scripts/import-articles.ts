@@ -225,18 +225,13 @@ const figure = (file: { url: string; alternativeText?: string; width?: number; h
   `<figure class="image"><img src="${file.url}" alt="${escapeHtml(file.alternativeText ?? '')}"` +
   `${file.width ? ` width="${file.width}" height="${file.height}"` : ''}></figure>`;
 
-// News stories have no subheadings, so images go after the paragraphs about
-// one third and two thirds of the way through; sources are listed at the end.
+// Images go after the paragraphs about one third and two thirds of the way
+// through. Sources are parsed only to cut them from the body, not shown.
 function buildContent(story: Story, images: { url: string }[]) {
   const paragraphs = md.render(unescape(story.bodyMd).replace(/^#{1,4}\s+(.+)$/gm, (_l, h: string) => `## ${h.replace(/\*\*/g, '')}`)).split(/(?<=<\/p>)\n?/).filter((p: string) => p.trim());
   const slots = images.map((_, i) => Math.max(1, Math.round(((i + 1) * paragraphs.length) / (images.length + 1))));
   for (let i = images.length - 1; i >= 0; i--) paragraphs.splice(slots[i], 0, figure(images[i] as any));
-  const sources = story.sources.length
-    ? `<h2>Sources</h2><ul>${story.sources
-        .map(({ url, label }) => `<li><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a></li>`)
-        .join('')}</ul>`
-    : '';
-  return paragraphs.join('\n') + sources;
+  return paragraphs.join('\n');
 }
 
 const firstParagraph = (bodyMd: string) => clean(unescape(bodyMd.split(/\n\s*\n/)[0]).replace(/\*\*/g, ''));
